@@ -98,4 +98,5 @@ At least Phase 2
 1 point - existence of virtual and purely virtual methods
 0.5 points - use of an STL container
 4 points - correct treatment of the 3 proposed scenarios (1 point for each equation) + 1 script received at the presentation of the project
-* Classes and/or methods not related to the project will not be taken into account
+
+* classes and/or methods not related to the project will not be taken into account

@@ -7,6 +7,9 @@
 
 class UtilTickets
 {
+	UtilTickets() {
+
+	}
 
 public:
 

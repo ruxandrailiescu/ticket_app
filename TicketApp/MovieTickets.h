@@ -7,7 +7,7 @@ enum ticketsType {NORMAL = 0, VIP = 1};
 
 class MovieTickets
 {
-	const int id;			// randomly generated, can only be initialized in constructor (const, no setter)
+	const int id;
 	char* movieName = nullptr;
 	char* theaterName = nullptr;
 	char seatNumber[4] = "";
@@ -16,7 +16,9 @@ class MovieTickets
 	double price = 0;
 	ticketsType type;
 //	int capacity = 0;
-	static int noTickets;
+
+	static int NO_TICKETS;
+	static int ID_COUNTER;
 
 public:
 
@@ -34,6 +36,7 @@ public:
 	char* getTime();
 	char* getDate();
 	static int getNoTickets();
+	static int getIdCounter();		// get randomly generated id of a certain ticket
 
 
 	// Setters declaration

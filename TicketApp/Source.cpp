@@ -8,10 +8,10 @@ int main() {
 
 	// Normal tests:
 	
-	// Instantiate MovieTickets obj
+	// Instantiate MovieTickets obj (setters tested implicitly)
 	MovieTickets ticket(1, "Inception", "Baneasa", "H11", "12:20", "11/11/2023", 10, NORMAL);
 
-	// Getters (setters tested implicitly)
+	// Getters
 	std::cout << std::endl << "Movie name: " << ticket.getMovieName();
 	std::cout << std::endl << "Theater name: " << ticket.getTheaterName();
 	std::cout << std::endl << "Seat number: " << ticket.getSeatNumber();

@@ -6,11 +6,12 @@
 #include <cctype>
 
 
-int MovieTickets::noTickets = 0;
+int MovieTickets::NO_TICKETS = 0;
+int MovieTickets::ID_COUNTER = 0;		// random generation (?)
 
 
 // Constructor implementation
-MovieTickets::MovieTickets(int _id, const char* _movieName, const char* _theaterName, const char* _seatNumber, const char* _time, const char* _date, double _price, ticketsType _type) : id(_id), price(_price), type(_type) {
+MovieTickets::MovieTickets(int _id, const char* _movieName, const char* _theaterName, const char* _seatNumber, const char* _time, const char* _date, double _price, ticketsType _type) : id(++ID_COUNTER), price(_price), type(_type) {
 
 	this->setMovieName(_movieName);
 	this->setTheaterName(_theaterName);
@@ -18,70 +19,35 @@ MovieTickets::MovieTickets(int _id, const char* _movieName, const char* _theater
 	this->setTime(_time);
 	this->setDate(_date);
 
-	MovieTickets::noTickets++;
+	MovieTickets::NO_TICKETS++;
 }
 
 
 // Copy constructor implementation
 MovieTickets::MovieTickets(const MovieTickets& t) :
-	MovieTickets(t.id, t.movieName, t.theaterName, t.seatNumber, t.time, t.date, t.price, t.type) {			// another randomly generated id (?)
+	MovieTickets(++ID_COUNTER, t.movieName, t.theaterName, t.seatNumber, t.time, t.date, t.price, t.type) {
 
 }
 
 
 // Getters implementation
-int MovieTickets::getNoTickets() { return MovieTickets::noTickets; }
+int MovieTickets::getNoTickets() { return MovieTickets::NO_TICKETS; }
+int MovieTickets::getIdCounter() { return MovieTickets::ID_COUNTER; }
 
 int MovieTickets::getId() { return this->id; }
 const char* MovieTickets::getSeatNumber() { return this->seatNumber; }		// compare to getTime, getDate (which is better?)
 double MovieTickets::getPrice() { return this->price; }
 ticketsType MovieTickets::getType() { return this->type; }
 
-//char* MovieTickets::getMovieName() {
-//
-//	if (this->movieName == nullptr) {
-//		return nullptr;
-//	}
-//
-//	char* copy = new char[strlen(this->movieName) + 1];
-//	strcpy_s(copy, strlen(this->movieName) + 1, this->movieName);
-//
-//	return copy;
-//}
-
 char* MovieTickets::getMovieName() {
 
 	return UtilTickets::copyString(this->movieName);
 }
 
-//char* MovieTickets::getTheaterName() {
-//
-//	if (this->theaterName == nullptr) {
-//		return nullptr;
-//	}
-//
-//	char* copy = new char[strlen(this->theaterName) + 1];
-//	strcpy_s(copy, strlen(this->theaterName) + 1, this->theaterName);
-//
-//	return copy;
-//}
-
 char* MovieTickets::getTheaterName() {
 
 	return UtilTickets::copyString(this->theaterName);
 }
-
-//char* MovieTickets::getTime() {
-//
-//	if (this->time == nullptr) {
-//		return nullptr;
-//	}
-//
-//	char* copy = new char[strlen(this->time) + 1];
-//	strcpy_s(copy, strlen(this->time) + 1, this->time);
-//
-//	return copy;
-//}
 
 char* MovieTickets::getTime() {
 
@@ -95,26 +61,6 @@ char* MovieTickets::getDate() {
 
 
 // Setters implementation
-
-//void MovieTickets::setMovieName(const char* _movieName) {
-//
-//	std::string movieNameString(_movieName);
-//
-//	if ((movieNameString.empty()) && (islower(movieNameString[0]))) {		// test
-//		std::cout << std::endl << "Invalid movie name." << std::endl;
-//		return;
-//	}
-//	else {
-//		if (this->movieName != nullptr) {
-//			delete[] this->movieName;
-//		}
-//
-//		this->movieName = new char[strlen(_movieName) + 1];
-//		strcpy_s(this->movieName, strlen(_movieName) + 1, _movieName);
-//	}
-//
-//}
-
 void MovieTickets::setMovieName(const char* _movieName) {				// handle whitespace characters
 
 	if (!UtilTickets::validateString(std::string(_movieName))) {
@@ -127,25 +73,6 @@ void MovieTickets::setMovieName(const char* _movieName) {				// handle whitespac
 		UtilTickets::setString(this->movieName, _movieName);
 	}
 }
-
-//void MovieTickets::setTheaterName(const char* _theaterName) {
-//
-//	std::string theaterNameString(_theaterName);
-//
-//	if ((theaterNameString.empty()) && (islower(theaterNameString[0]))) {		// test
-//		std::cout << std::endl << "Invalid theater name." << std::endl;
-//		return;
-//	}
-//	else {
-//		if (this->theaterName != nullptr) {
-//			delete[] this->theaterName;
-//		}
-//
-//		this->theaterName = new char[strlen(_theaterName) + 1];
-//		strcpy_s(this->theaterName, strlen(_theaterName) + 1, _theaterName);
-//	}
-//
-//}
 
 void MovieTickets::setTheaterName(const char* _theaterName) {				// handle whitespace characters
 
@@ -220,6 +147,6 @@ MovieTickets::~MovieTickets() {
 	delete[] this->movieName;
 	delete[] this->theaterName;
 
-	MovieTickets::noTickets--;
+	MovieTickets::NO_TICKETS--;
 }
 

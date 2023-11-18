@@ -1,6 +1,8 @@
 #ifndef UTILTICKETS_H
 #define UTILTICKETS_H
 
+#include "MovieTickets.h"
+
 #include <string>
 #include <regex>
 
@@ -19,6 +21,8 @@ public:
 	static bool validateString(std::string string);
 	static bool validateTime(const char* source);
 	static bool validateDate(const char* source);
+	static bool isStudent(const TicketsType type);
+	static bool isVip(const TicketsType type);
 	// method - verify tickets not sold out: noTickets <= capacity
 
 };

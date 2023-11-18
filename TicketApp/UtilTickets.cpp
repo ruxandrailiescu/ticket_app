@@ -57,4 +57,14 @@ bool UtilTickets::validateDate(const char* source) {
 	return std::regex_match(source, dateRegex);		// match -> true
 }
 
+bool UtilTickets::isStudent(const TicketsType type) {
+
+	return (type == TicketsType::STUDENT);
+}
+
+bool UtilTickets::isVip(const TicketsType type) {
+
+	return (type == TicketsType::VIP);
+}
+
 // method - verify tickets not sold out: noTickets <= capacity

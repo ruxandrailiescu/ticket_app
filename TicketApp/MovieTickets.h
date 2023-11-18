@@ -1,9 +1,10 @@
 #ifndef MOVIETICKETS_H
 #define MOVIETICKETS_H
 
+#include <iostream>
 
-enum ticketsType {NORMAL = 0, VIP = 1};
-
+#define PRICE_MAX 99999.9999999
+enum class TicketsType {NORMAL, VIP, STUDENT};
 
 class MovieTickets
 {
@@ -14,38 +15,28 @@ class MovieTickets
 	char time[6] = "";		// hh:mm
 	char date[11] = "";		// dd/mm/yyyy
 	double price = 0;
-	ticketsType type;
+	TicketsType type = TicketsType::NORMAL;
 //	int capacity = 0;
-
 	static int NO_TICKETS;
 	static int ID_COUNTER;
 
 public:
 
-	// Constructor declaration
-	MovieTickets(int _id, const char* _movieName, const char* _theaterName, const char* _seatNumber, const char* _time, const char* _date, double _price, ticketsType _type);
-
+	// Constructors declaration
+	MovieTickets(int _id, const char* _movieName, const char* _theaterName, const char* _seatNumber, const char* _time, const char* _date, double _price, TicketsType _type);
+	MovieTickets();
 
 	// Getters declaration
 	int getId();
 	const char* getSeatNumber();
 	double getPrice();
-	ticketsType getType();
+	TicketsType getType();
 	char* getMovieName();
 	char* getTheaterName();
 	char* getTime();
 	char* getDate();
 	static int getNoTickets();
-	static int getIdCounter();		// get randomly generated id of a certain ticket
-
-
-	// Setters declaration
-	void setMovieName(const char* _movieName);
-	void setTheaterName(const char* _theaterName);
-	void setSeatNumber(const char* _seatNumber);
-	void setTime(const char* _time);
-	void setDate(const char* _date);
-	//set price, type
+	static int getIdCounter();		
 
 
 	// Copy constructor declaration
@@ -54,7 +45,30 @@ public:
 
 	// Destructor declaration
 	~MovieTickets();
+
+	// Overloaded operators
+
+	// Generic methods
+	void displayTicketDetails();
+
+
+protected:
+
+	// Setters declaration
+	void setMovieName(const char* _movieName);
+	void setTheaterName(const char* _theaterName);
+	void setSeatNumber(const char* _seatNumber);
+	void setTime(const char* _time);
+	void setDate(const char* _date);
+	void setPrice(const double _price);
+	void setType(const TicketsType _type);
+
+
 };
+
+
+// Output ticket type
+std::ostream& operator<<(std::ostream& out, const TicketsType& _type);
 
 
 #endif

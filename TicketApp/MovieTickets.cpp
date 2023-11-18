@@ -10,18 +10,33 @@ int MovieTickets::NO_TICKETS = 0;
 int MovieTickets::ID_COUNTER = 0;		// random generation (?)
 
 
-// Constructor implementation
-MovieTickets::MovieTickets(int _id, const char* _movieName, const char* _theaterName, const char* _seatNumber, const char* _time, const char* _date, double _price, ticketsType _type) : id(++ID_COUNTER), price(_price), type(_type) {
+// Constructors implementation
+MovieTickets::MovieTickets(int _id, const char* _movieName, const char* _theaterName, const char* _seatNumber, const char* _time, const char* _date, double _price, TicketsType _type) : id(++ID_COUNTER) {
 
 	this->setMovieName(_movieName);
 	this->setTheaterName(_theaterName);
 	this->setSeatNumber(_seatNumber);
 	this->setTime(_time);
 	this->setDate(_date);
+	this->setPrice(_price);
+	this->setType(_type);
+
+	// 10% discount for students
+	if (UtilTickets::isStudent) {
+		this->price = _price * 0.9;
+	}
+
+	// 20% increase for vip
+	if (UtilTickets::isVip) {
+		this->price = _price * 1.2;
+	}
 
 	MovieTickets::NO_TICKETS++;
 }
 
+MovieTickets::MovieTickets() :id(++ID_COUNTER) {
+
+}
 
 // Copy constructor implementation
 MovieTickets::MovieTickets(const MovieTickets& t) :
@@ -37,7 +52,7 @@ int MovieTickets::getIdCounter() { return MovieTickets::ID_COUNTER; }
 int MovieTickets::getId() { return this->id; }
 const char* MovieTickets::getSeatNumber() { return this->seatNumber; }		// compare to getTime, getDate (which is better?)
 double MovieTickets::getPrice() { return this->price; }
-ticketsType MovieTickets::getType() { return this->type; }
+TicketsType MovieTickets::getType() { return this->type; }
 
 char* MovieTickets::getMovieName() {
 
@@ -140,13 +155,68 @@ void MovieTickets::setDate(const char* _date) {
 	}
 }
 
+void MovieTickets::setPrice(const double _price) {
+
+	if (_price > 0 && _price < PRICE_MAX) {
+		this->price = _price;
+	}
+}
+
+void MovieTickets::setType(const TicketsType _type) {
+
+	if (_type == TicketsType::NORMAL || _type == TicketsType::STUDENT || _type == TicketsType::VIP) {
+		this->type = _type;
+	}
+}
+
 
 // Destructor implementation
 MovieTickets::~MovieTickets() {
 
-	delete[] this->movieName;
-	delete[] this->theaterName;
-
+	if (this->movieName != nullptr) {
+		delete[] this->movieName;
+	}
+	
+	if (this->theaterName != nullptr) {
+		delete[] this->theaterName;
+	}
+	
 	MovieTickets::NO_TICKETS--;
+}
+
+std::ostream& operator<<(std::ostream& out, const TicketsType& _type) {
+
+	switch (_type) {
+	case TicketsType::NORMAL:
+		out << "NORMAL";
+		break;
+	case TicketsType::VIP:
+		out << "VIP";
+		break;
+	case TicketsType::STUDENT:
+		out << "STUDENT";
+		break;
+	default:
+		out << "Invalid ticket type";
+		break;
+	}
+	out << std::endl;
+
+	return out;
+}
+
+
+// Generic methods implementation
+void MovieTickets::displayTicketDetails() {
+
+	std::cout << std::endl << this->id;
+	std::cout << std::endl << this->movieName;
+	std::cout << std::endl << this->theaterName;
+	std::cout << std::endl << this->seatNumber;
+	std::cout << std::endl << this->type;
+	std::cout << std::endl << this->price;
+	std::cout << std::endl << this->date;
+	std::cout << std::endl << this->time;
+
 }
 

@@ -9,11 +9,20 @@ int main() {
 	
 	// Instantiate MovieTickets obj (setters tested implicitly)
 	MovieTickets ticket(1, "Inception", "Baneasa", "H11", "12:20", "11/11/2023", 10, TicketsType::STUDENT);
+	MovieTickets ticket1("Godfather 2", "Baneasa", "13:30", "12/11/2023");
+
+	// Operator<<
+	std::cout << ticket1;
 
 	// Default constructor
-	// ...
+	//MovieTickets defaultTicket;
+	//std::cout << std::endl;
+	//defaultTicket.displayTicketDetails();	
+	//std::cout << std::endl;
+
 
 	// Getters
+	std::cout << std::endl << "Ticket id: " << ticket.getId();
 	std::cout << std::endl << "Movie name: " << ticket.getMovieName();
 	std::cout << std::endl << "Theater name: " << ticket.getTheaterName();
 	std::cout << std::endl << "Seat number: " << ticket.getSeatNumber();
@@ -27,9 +36,17 @@ int main() {
 
 
 	// Copy constructor
-	MovieTickets ticket2 = ticket;		// unwanted behavior for output - id counter 3
+	MovieTickets ticket2 = ticket;
+
+	// Operator=
+	ticket1 = ticket2;
+
+	std::cout << std::endl;
+	ticket1.displayTicketDetails();
+	std::cout << std::endl;
 
 	// Display details of ticket
+	std::cout << std::endl;
 	ticket2.displayTicketDetails();
-
+	std::cout << std::endl;
 }

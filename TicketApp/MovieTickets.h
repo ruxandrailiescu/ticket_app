@@ -23,7 +23,8 @@ class MovieTickets
 public:
 
 	// Constructors declaration
-	MovieTickets(int _id, const char* _movieName, const char* _theaterName, const char* _seatNumber, const char* _time, const char* _date, double _price, TicketsType _type);
+	MovieTickets(int _id, const char* _movieName, const char* _theaterName, const char* _seatNumber, const char* _time, const char* _date, const double _price, const TicketsType _type);
+	MovieTickets(const char* _movieName, const char* _theaterName, const char* _time, const char* _date);
 	MovieTickets();
 
 	// Getters declaration
@@ -46,7 +47,8 @@ public:
 	// Destructor declaration
 	~MovieTickets();
 
-	// Overloaded operators
+	// Overloaded operators declaration
+	MovieTickets& operator=(const MovieTickets& t);
 
 	// Generic methods
 	void displayTicketDetails();
@@ -66,6 +68,8 @@ protected:
 
 };
 
+// Input stream and output stream
+std::ostream& operator<<(std::ostream& out, MovieTickets& t);
 
 // Output ticket type
 std::ostream& operator<<(std::ostream& out, const TicketsType& _type);

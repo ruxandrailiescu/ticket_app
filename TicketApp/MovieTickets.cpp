@@ -11,7 +11,7 @@ int MovieTickets::ID_COUNTER = 0;		// random generation (?)
 
 
 // Constructors implementation
-MovieTickets::MovieTickets(int _id, const char* _movieName, const char* _theaterName, const char* _seatNumber, const char* _time, const char* _date, double _price, TicketsType _type) : id(++ID_COUNTER) {
+MovieTickets::MovieTickets(int _id, const char* _movieName, const char* _theaterName, const char* _seatNumber, const char* _time, const char* _date, const double _price, const TicketsType _type) : id(++ID_COUNTER) {
 
 	this->setMovieName(_movieName);
 	this->setTheaterName(_theaterName);
@@ -22,25 +22,37 @@ MovieTickets::MovieTickets(int _id, const char* _movieName, const char* _theater
 	this->setType(_type);
 
 	// 10% discount for students
-	if (UtilTickets::isStudent) {
+	if (UtilTickets::isStudent(_type)) {
 		this->price = _price * 0.9;
 	}
 
 	// 20% increase for vip
-	if (UtilTickets::isVip) {
+	if (UtilTickets::isVip(_type)) {
 		this->price = _price * 1.2;
 	}
 
 	MovieTickets::NO_TICKETS++;
 }
 
-MovieTickets::MovieTickets() :id(++ID_COUNTER) {
+MovieTickets::MovieTickets(const char* _movieName, const char* _theaterName, const char* _time, const char* _date) :id(++ID_COUNTER) {
 
+	this->setMovieName(_movieName);
+	this->setTheaterName(_theaterName);
+	this->setTime(_time);
+	this->setDate(_date);
+
+	MovieTickets::NO_TICKETS++;
+}
+
+MovieTickets::MovieTickets() :id(++ID_COUNTER) {
+	// ask for user input
 }
 
 // Copy constructor implementation
 MovieTickets::MovieTickets(const MovieTickets& t) :
-	MovieTickets(++ID_COUNTER, t.movieName, t.theaterName, t.seatNumber, t.time, t.date, t.price, t.type) {
+	MovieTickets(t.id, t.movieName, t.theaterName, t.seatNumber, t.time, t.date, t.price, TicketsType::NORMAL) {
+
+	this->type = t.type;		// avoid applying discount/increase in price twice
 
 }
 
@@ -184,6 +196,40 @@ MovieTickets::~MovieTickets() {
 	MovieTickets::NO_TICKETS--;
 }
 
+// Overloaded operators implementation
+MovieTickets& MovieTickets::operator=(const MovieTickets& t) {
+
+	if (this == &t) {
+		return *this;
+	}
+
+	this->setMovieName(t.movieName);
+	this->setTheaterName(t.theaterName);
+	this->setSeatNumber(t.seatNumber);
+	this->setPrice(t.price);
+	this->setDate(t.date);
+	this->setTime(t.time);
+	this->setType(t.type);
+
+	return *this;
+}
+
+std::ostream& operator<<(std::ostream& out, MovieTickets& t) {
+
+	out << std::endl << "Movie name: " << t.getMovieName();
+	out << std::endl << "Theater name: " << t.getTheaterName();
+	out << std::endl << "Seat number: " << t.getSeatNumber();
+	out << std::endl << "Date: " << t.getDate();
+	out << std::endl << "Time: " << t.getTime();
+	out << std::endl << "Ticket type: " << t.getType();
+	out << std::endl << "Price: " << t.getPrice();
+	out << std::endl;
+
+	return out;
+
+	// messages to alert user that certain attributes are not assigned - default constr and other
+}
+
 std::ostream& operator<<(std::ostream& out, const TicketsType& _type) {
 
 	switch (_type) {
@@ -200,7 +246,6 @@ std::ostream& operator<<(std::ostream& out, const TicketsType& _type) {
 		out << "Invalid ticket type";
 		break;
 	}
-	out << std::endl;
 
 	return out;
 }
@@ -209,14 +254,14 @@ std::ostream& operator<<(std::ostream& out, const TicketsType& _type) {
 // Generic methods implementation
 void MovieTickets::displayTicketDetails() {
 
-	std::cout << std::endl << this->id;
-	std::cout << std::endl << this->movieName;
-	std::cout << std::endl << this->theaterName;
-	std::cout << std::endl << this->seatNumber;
-	std::cout << std::endl << this->type;
-	std::cout << std::endl << this->price;
-	std::cout << std::endl << this->date;
-	std::cout << std::endl << this->time;
+	std::cout << std::endl << "Ticket ID: " << this->id;
+	std::cout << std::endl << "Movie name: " << this->movieName;
+	std::cout << std::endl << "Theater name: " << this->theaterName;
+	std::cout << std::endl << "Seat number: " << this->seatNumber;
+	std::cout << std::endl << "Ticket type: " << this->type;
+	std::cout << std::endl << "Ticket price: " << this->price;
+	std::cout << std::endl << "Date: " << this->date;
+	std::cout << std::endl << "Time: " << this->time;
 
 }
 

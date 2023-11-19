@@ -50,6 +50,8 @@ public:
 
 	// Overloaded operators declaration
 	MovieTickets& operator=(const MovieTickets& t);
+	bool operator!();
+	MovieTickets operator+(int val);
 
 	// Generic methods
 	void displayTicketDetails();

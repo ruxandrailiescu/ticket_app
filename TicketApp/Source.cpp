@@ -52,6 +52,16 @@ int main() {
 
 	// Operator>>
 	MovieTickets ticket3;
-	std::cin >> ticket3;
-	ticket3.displayTicketDetails();		// throw exceptions because invalid input is not notified to user (logic works)
+	//test for other constr 
+//	std::cin >> ticket3;				// exception when invalid input is entered, handle
+//	ticket3.displayTicketDetails();		// throw exceptions because invalid input is not notified to user (logic works)
+										// handle exception when the default constr is used and display default values
+
+	// Operator!
+	bool res = !ticket3;
+	std::cout << std::endl << res;
+
+
+	// Operator+
+	// ...
 }

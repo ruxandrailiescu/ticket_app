@@ -89,7 +89,7 @@ char* MovieTickets::getDate() {
 
 
 // Setters implementation
-void MovieTickets::setMovieName(const char* _movieName) {				// handle whitespace characters
+void MovieTickets::setMovieName(const char* _movieName) {				
 
 	if (!UtilTickets::validateString(std::string(_movieName))) {
 
@@ -102,7 +102,7 @@ void MovieTickets::setMovieName(const char* _movieName) {				// handle whitespac
 	}
 }
 
-void MovieTickets::setTheaterName(const char* _theaterName) {				// handle whitespace characters
+void MovieTickets::setTheaterName(const char* _theaterName) {				
 
 	if (!UtilTickets::validateString(std::string(_theaterName))) {
 
@@ -198,6 +198,7 @@ MovieTickets::~MovieTickets() {
 }
 
 // Overloaded operators implementation
+// Operator=
 MovieTickets& MovieTickets::operator=(const MovieTickets& t) {
 
 	if (this == &t) {
@@ -213,6 +214,25 @@ MovieTickets& MovieTickets::operator=(const MovieTickets& t) {
 	this->setType(t.type);
 
 	return *this;
+}
+
+// Operator!
+bool MovieTickets::operator!() {
+
+	// return true if seat has not been chosen
+	if (this->seatNumber == nullptr || strlen(this->seatNumber) == 0) {
+		return true;
+	}
+	return false;
+}
+
+// Operator+
+MovieTickets MovieTickets::operator+(int val) {
+
+	MovieTickets copy = *this;
+	copy.price += val;
+	return copy;
+
 }
 
 std::ostream& operator<<(std::ostream& out, MovieTickets& t) {
@@ -315,7 +335,7 @@ void MovieTickets::inputValidation() {
 		}
 	}
 
-	if (strlen(this->seatNumber)==0) {
+	if (this->seatNumber == nullptr || strlen(this->seatNumber) == 0) {
 
 		if (!inputString(t_seatNumber, "seat number")) {
 			return;

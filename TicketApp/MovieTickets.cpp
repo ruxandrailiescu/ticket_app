@@ -45,7 +45,8 @@ MovieTickets::MovieTickets(const char* _movieName, const char* _theaterName, con
 }
 
 MovieTickets::MovieTickets() :id(++ID_COUNTER) {
-	// ask for user input
+	
+	MovieTickets::NO_TICKETS++;
 }
 
 // Copy constructor implementation
@@ -141,7 +142,7 @@ void MovieTickets::setSeatNumber(const char* _seatNumber) {		// test			regex for
 
 void MovieTickets::setTime(const char* _time) {
 
-	if (UtilTickets::validateTime) {
+	if (UtilTickets::validateTime(_time)) {
 		
 		strcpy_s(this->time, sizeof(this->time), _time);
 //		strcpy_s(this->time, strlen(_time), _time);
@@ -155,7 +156,7 @@ void MovieTickets::setTime(const char* _time) {
 
 void MovieTickets::setDate(const char* _date) {
 
-	if (UtilTickets::validateDate) {
+	if (UtilTickets::validateDate(_date)) {
 
 		strcpy_s(this->date, sizeof(this->date), _date);
 //		strcpy_s(this->date, strlen(_date), _date);
@@ -230,6 +231,15 @@ std::ostream& operator<<(std::ostream& out, MovieTickets& t) {
 	// messages to alert user that certain attributes are not assigned - default constr and other
 }
 
+std::istream& operator>>(std::istream& in, MovieTickets& t) {
+
+	// create input validation method and call it here 
+	// (to avoid making istream a friend)
+
+	t.inputValidation();
+	return in;
+}
+
 std::ostream& operator<<(std::ostream& out, const TicketsType& _type) {
 
 	switch (_type) {
@@ -262,6 +272,89 @@ void MovieTickets::displayTicketDetails() {
 	std::cout << std::endl << "Ticket price: " << this->price;
 	std::cout << std::endl << "Date: " << this->date;
 	std::cout << std::endl << "Time: " << this->time;
+
+}
+
+bool MovieTickets::inputString(std::string& s, const char* item) {
+
+	std::cout << std::endl << "Enter " << item << " : ";
+
+	if (!std::getline(std::cin, s)) {
+
+		std::cerr << std::endl << "Invalid input/Error occurred.";
+		return false;
+	}
+	return true;
+}
+
+void MovieTickets::inputValidation() {
+
+	// if obj instantiated with one of the constructors
+	// having less parameters than member variables of class
+
+	std::string t_movieName;
+	std::string t_theaterName;
+	std::string t_seatNumber;
+	std::string t_time;
+	std::string t_date;
+	double t_price = 0;
+
+	// obj will always have an id
+	if (this->movieName == nullptr) {
+		
+		/*std::cin.ignore();*/
+		if (!inputString(t_movieName, "movie")) {
+			return;
+		}
+	}
+
+	if (this->theaterName == nullptr) {
+
+		if (!inputString(t_theaterName, "theater")) {
+			return;
+		}
+	}
+
+	if (strlen(this->seatNumber)==0) {
+
+		if (!inputString(t_seatNumber, "seat number")) {
+			return;
+		}
+	}
+
+	if (strlen(this->time) == 0) {
+
+		if (!inputString(t_time, "time")) {
+			return;
+		}
+	}
+	
+	if (strlen(this->date) == 0) {
+
+		if (!inputString(t_date, "date")) {
+			return;
+		}
+	}
+
+	if (this->price == 0) {
+
+		std::cout << std::endl << "Enter price: ";
+
+		if (!(std::cin >> t_price)) {
+			
+			std::cerr << std::endl << "Invalid input/Error occurred.";
+			return;
+		}
+	}
+
+	// (!!!) type is NORMAL by default, handle
+
+	this->setMovieName(t_movieName.c_str());
+	this->setTheaterName(t_theaterName.c_str());
+	this->setSeatNumber(t_seatNumber.c_str());
+	this->setTime(t_time.c_str());
+	this->setDate(t_date.c_str());
+	this->setPrice(t_price);
 
 }
 

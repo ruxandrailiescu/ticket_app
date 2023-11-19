@@ -49,4 +49,9 @@ int main() {
 	std::cout << std::endl;
 	ticket2.displayTicketDetails();
 	std::cout << std::endl;
+
+	// Operator>>
+	MovieTickets ticket3;
+	std::cin >> ticket3;
+	ticket3.displayTicketDetails();		// throw exceptions because invalid input is not notified to user (logic works)
 }

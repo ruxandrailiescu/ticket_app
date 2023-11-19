@@ -1,9 +1,10 @@
 #ifndef MOVIETICKETS_H
 #define MOVIETICKETS_H
+#define PRICE_MAX 99999.9999999
 
 #include <iostream>
 
-#define PRICE_MAX 99999.9999999
+
 enum class TicketsType {NORMAL, VIP, STUDENT};
 
 class MovieTickets
@@ -52,6 +53,8 @@ public:
 
 	// Generic methods
 	void displayTicketDetails();
+	void inputValidation();
+	bool inputString(std::string& s, const char* item);
 
 
 protected:
@@ -68,8 +71,9 @@ protected:
 
 };
 
-// Input stream and output stream
+// Output and input streams
 std::ostream& operator<<(std::ostream& out, MovieTickets& t);
+std::istream& operator>>(std::istream& in, MovieTickets& t);
 
 // Output ticket type
 std::ostream& operator<<(std::ostream& out, const TicketsType& _type);

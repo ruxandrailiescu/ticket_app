@@ -60,8 +60,38 @@ int main() {
 	// Operator!
 	bool res = !ticket3;
 	std::cout << std::endl << res;
+	//std::cout << std::endl << (!ticket3);
 
 
 	// Operator+
-	// ...
+	ticket2 = ticket2 + 10;
+	std::cout << std::endl << ticket2.getPrice();
+
+	// Operator==
+	std::cout << std::endl << (ticket1 == ticket);
+	std::cout << std::endl << (ticket3 == ticket);		// logic works for obj instantiated with default constr
+
+	// Operator> and operator<
+	if (ticket2 > ticket) {
+		std::cout << std::endl << "Price of ticket2 is greater than price of ticket."<<std::endl;
+	}
+
+	if (ticket < ticket2) {
+		std::cout << std::endl << "Price of ticket smaller than price of ticket2."<<std::endl;
+	}
+
+	std::cout << std::endl << std::string(ticket) << std::endl;
+
+	// Operator++ pre and post
+	ticket2 = ++ticket;
+	ticket3 = ticket++;
+
+	//MovieTickets tickets;
+	//MovieTickets& ticketAtIndex1 = tickets[1];
+	//ticketAtIndex1.displayTicketDetails();
+
+	std::cout << std::endl << MovieTickets::getNoTickets() << std::endl;
+	std::cout << std::endl << MovieTickets::getIdCounter() << std::endl;		// ID_COUNTER = NO_TICKETS + 3 (because copies are made for operator++ ?) - handle
+																				// ID_COUNTER should have an upper limit
+
 }

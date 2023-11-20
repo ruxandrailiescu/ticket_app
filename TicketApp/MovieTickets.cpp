@@ -7,8 +7,8 @@
 
 
 int MovieTickets::NO_TICKETS = 0;
-int MovieTickets::ID_COUNTER = 0;		// random generation (?)
-
+int MovieTickets::ID_COUNTER = 0;
+//std::vector<MovieTickets> MovieTickets::vectorTickets;
 
 // Constructors implementation
 MovieTickets::MovieTickets(int _id, const char* _movieName, const char* _theaterName, const char* _seatNumber, const char* _time, const char* _date, const double _price, const TicketsType _type) : id(++ID_COUNTER) {
@@ -32,6 +32,7 @@ MovieTickets::MovieTickets(int _id, const char* _movieName, const char* _theater
 	}
 
 	MovieTickets::NO_TICKETS++;
+	//MovieTickets::vectorTickets.push_back(*this);
 }
 
 MovieTickets::MovieTickets(const char* _movieName, const char* _theaterName, const char* _time, const char* _date) :id(++ID_COUNTER) {
@@ -42,11 +43,13 @@ MovieTickets::MovieTickets(const char* _movieName, const char* _theaterName, con
 	this->setDate(_date);
 
 	MovieTickets::NO_TICKETS++;
+	//MovieTickets::vectorTickets.push_back(*this);
 }
 
 MovieTickets::MovieTickets() :id(++ID_COUNTER) {
 	
 	MovieTickets::NO_TICKETS++;
+	//MovieTickets::vectorTickets.push_back(*this);
 }
 
 // Copy constructor implementation
@@ -54,13 +57,17 @@ MovieTickets::MovieTickets(const MovieTickets& t) :
 	MovieTickets(t.id, t.movieName, t.theaterName, t.seatNumber, t.time, t.date, t.price, TicketsType::NORMAL) {
 
 	this->type = t.type;		// avoid applying discount/increase in price twice
-
 }
 
 
 // Getters implementation
 int MovieTickets::getNoTickets() { return MovieTickets::NO_TICKETS; }
 int MovieTickets::getIdCounter() { return MovieTickets::ID_COUNTER; }
+
+//std::vector<MovieTickets>& MovieTickets::getVectorTickets() {
+//
+//	return MovieTickets::vectorTickets;
+//}
 
 int MovieTickets::getId() { return this->id; }
 const char* MovieTickets::getSeatNumber() { return this->seatNumber; }		// compare to getTime, getDate (which is better?)
@@ -235,6 +242,95 @@ MovieTickets MovieTickets::operator+(int val) {
 
 }
 
+// Operator-
+MovieTickets MovieTickets::operator-(int val) {
+
+	MovieTickets copy = *this;
+	copy.price -= val;
+	return copy;
+}
+
+// Operator==
+bool MovieTickets::operator==(const MovieTickets& t) {
+
+	if (this == &t) {
+		return true;
+	}
+
+	// see if tickets are the same - movie, theater, seat number, date, time
+	// throw exception - double-booking not allowed
+	if ((this->movieName == t.movieName) && (this->theaterName == t.theaterName) &&
+		(this->seatNumber == t.seatNumber) && (this->date == t.date) && (this->time == t.time)) {
+		return true;
+		// ... exception
+	}
+
+	return false;
+}
+
+// Operator>
+bool MovieTickets::operator>(const MovieTickets& t) {
+
+	if ((this == &t) || (this->price <= t.price)) {
+		return false;
+	}
+
+	return true;
+}
+
+// Operator<
+bool MovieTickets::operator<(const MovieTickets& t) {
+
+	if ((this == &t) || (this->price >= t.price)) {
+		return false;
+	}
+
+	return true;
+}
+
+// Cast operator to string
+MovieTickets::operator std::string() {
+
+	std::string strResult = std::to_string(this->id);
+
+	if ((this->movieName != nullptr) && (this->theaterName != nullptr)) {		// verification works with && because in order to instantiate
+																				// MovieTickets obj, either use default constr (movieName AND theaterName == nullptr)
+		strResult += " " + std::string(this->movieName) +						// or must pass both
+			" " + std::string(this->theaterName) +	
+			" " + this->seatNumber + " " + this->date + " " + this->time;
+	}
+	
+	return strResult;
+}
+
+// Pre-increment the price of the ticket by 1
+MovieTickets MovieTickets::operator++() {
+
+	this->price++;
+	return *this;
+}
+
+// Post-increment the price of the ticket by 1
+MovieTickets MovieTickets::operator++(int) {
+
+	MovieTickets copy = *this;
+	this->price++;
+	return copy;
+}
+
+// Indexing operator[]
+//MovieTickets& MovieTickets::operator[](size_t index) {
+//
+//	if (index < MovieTickets::vectorTickets.size()) {
+//		return MovieTickets::vectorTickets[index];
+//	}
+//	else {
+//		std::cerr << "Index out of bounds! Returning first element." << std::endl;		// throw exception here
+//		return MovieTickets::vectorTickets[0];
+//	}
+//}
+
+
 std::ostream& operator<<(std::ostream& out, MovieTickets& t) {
 
 	out << std::endl << "Movie name: " << t.getMovieName();
@@ -377,4 +473,3 @@ void MovieTickets::inputValidation() {
 	this->setPrice(t_price);
 
 }
-

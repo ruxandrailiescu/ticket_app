@@ -3,7 +3,7 @@
 #define PRICE_MAX 99999.9999999
 
 #include <iostream>
-
+//#include <vector>
 
 enum class TicketsType {NORMAL, VIP, STUDENT};
 
@@ -17,9 +17,11 @@ class MovieTickets
 	char date[11] = "";		// dd/mm/yyyy
 	double price = 0;
 	TicketsType type = TicketsType::NORMAL;
+
 //	int capacity = 0;
 	static int NO_TICKETS;
 	static int ID_COUNTER;
+	//static std::vector<MovieTickets> vectorTickets;
 
 public:
 
@@ -38,7 +40,8 @@ public:
 	char* getTime();
 	char* getDate();
 	static int getNoTickets();
-	static int getIdCounter();		
+	static int getIdCounter();	
+	//static std::vector<MovieTickets>& getVectorTickets();
 
 
 	// Copy constructor declaration
@@ -52,6 +55,14 @@ public:
 	MovieTickets& operator=(const MovieTickets& t);
 	bool operator!();
 	MovieTickets operator+(int val);
+	MovieTickets operator-(int val);
+	bool operator==(const MovieTickets& t);
+	bool operator>(const MovieTickets& t);
+	bool operator<(const MovieTickets& t);
+	explicit operator std::string();
+	MovieTickets operator++();
+	MovieTickets operator++(int);
+	//MovieTickets& operator[](size_t index);
 
 	// Generic methods
 	void displayTicketDetails();
@@ -79,6 +90,5 @@ std::istream& operator>>(std::istream& in, MovieTickets& t);
 
 // Output ticket type
 std::ostream& operator<<(std::ostream& out, const TicketsType& _type);
-
 
 #endif

@@ -94,4 +94,5 @@ int main() {
 	std::cout << std::endl << MovieTickets::getIdCounter() << std::endl;		// ID_COUNTER = NO_TICKETS + 3 (because copies are made for operator++ ?) - handle
 																				// ID_COUNTER should have an upper limit
 
+	std::cout << std::endl << MovieTickets::getVectorTickets() << std::endl;
 }

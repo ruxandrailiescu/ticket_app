@@ -8,6 +8,7 @@
 
 int MovieTickets::NO_TICKETS = 0;
 int MovieTickets::ID_COUNTER = 0;
+MovieTickets* MovieTickets::vectorTickets = nullptr;
 //std::vector<MovieTickets> MovieTickets::vectorTickets;
 
 // Constructors implementation
@@ -32,6 +33,11 @@ MovieTickets::MovieTickets(int _id, const char* _movieName, const char* _theater
 	}
 
 	MovieTickets::NO_TICKETS++;
+	if (vectorTickets != nullptr) {
+		delete[] vectorTickets;
+	}
+	vectorTickets = new MovieTickets[NO_TICKETS];
+	vectorTickets[this->id] = *this;
 	//MovieTickets::vectorTickets.push_back(*this);
 }
 
@@ -43,12 +49,22 @@ MovieTickets::MovieTickets(const char* _movieName, const char* _theaterName, con
 	this->setDate(_date);
 
 	MovieTickets::NO_TICKETS++;
+	if (vectorTickets != nullptr) {
+		delete[] vectorTickets;
+	}
+	vectorTickets = new MovieTickets[NO_TICKETS];
+	vectorTickets[this->id] = *this;
 	//MovieTickets::vectorTickets.push_back(*this);
 }
 
 MovieTickets::MovieTickets() :id(++ID_COUNTER) {
 	
 	MovieTickets::NO_TICKETS++;
+	if (vectorTickets != nullptr) {
+		delete[] vectorTickets;
+	}
+	vectorTickets = new MovieTickets[NO_TICKETS];
+	vectorTickets[this->id] = *this;
 	//MovieTickets::vectorTickets.push_back(*this);
 }
 
@@ -63,6 +79,18 @@ MovieTickets::MovieTickets(const MovieTickets& t) :
 // Getters implementation
 int MovieTickets::getNoTickets() { return MovieTickets::NO_TICKETS; }
 int MovieTickets::getIdCounter() { return MovieTickets::ID_COUNTER; }
+MovieTickets* MovieTickets::getVectorTickets() {
+
+	if (vectorTickets == nullptr) {
+		return nullptr;
+	}
+
+	MovieTickets* copy = new MovieTickets[NO_TICKETS];
+	for (int i = 0; i < NO_TICKETS; i++) {
+		copy[i] = vectorTickets[i];
+	}
+	return copy;
+}
 
 //std::vector<MovieTickets>& MovieTickets::getVectorTickets() {
 //
@@ -202,6 +230,9 @@ MovieTickets::~MovieTickets() {
 	}
 	
 	MovieTickets::NO_TICKETS--;
+	if (NO_TICKETS == 0) {
+		delete[] vectorTickets;
+	}
 }
 
 // Overloaded operators implementation

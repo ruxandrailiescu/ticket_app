@@ -21,6 +21,7 @@ class MovieTickets
 //	int capacity = 0;
 	static int NO_TICKETS;
 	static int ID_COUNTER;
+	static MovieTickets* vectorTickets;
 	//static std::vector<MovieTickets> vectorTickets;
 
 public:
@@ -41,6 +42,7 @@ public:
 	char* getDate();
 	static int getNoTickets();
 	static int getIdCounter();	
+	static MovieTickets* getVectorTickets();
 	//static std::vector<MovieTickets>& getVectorTickets();
 
 

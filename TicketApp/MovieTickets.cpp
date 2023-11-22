@@ -8,8 +8,7 @@
 
 int MovieTickets::NO_TICKETS = 0;
 int MovieTickets::ID_COUNTER = 0;
-MovieTickets* MovieTickets::vectorTickets = nullptr;
-//std::vector<MovieTickets> MovieTickets::vectorTickets;
+
 
 // Constructors implementation
 MovieTickets::MovieTickets(int _id, const char* _movieName, const char* _theaterName, const char* _seatNumber, const char* _time, const char* _date, const double _price, const TicketsType _type) : id(++ID_COUNTER) {
@@ -33,12 +32,7 @@ MovieTickets::MovieTickets(int _id, const char* _movieName, const char* _theater
 	}
 
 	MovieTickets::NO_TICKETS++;
-	if (vectorTickets != nullptr) {
-		delete[] vectorTickets;
-	}
-	vectorTickets = new MovieTickets[NO_TICKETS];
-	vectorTickets[this->id] = *this;
-	//MovieTickets::vectorTickets.push_back(*this);
+	
 }
 
 MovieTickets::MovieTickets(const char* _movieName, const char* _theaterName, const char* _time, const char* _date) :id(++ID_COUNTER) {
@@ -49,23 +43,13 @@ MovieTickets::MovieTickets(const char* _movieName, const char* _theaterName, con
 	this->setDate(_date);
 
 	MovieTickets::NO_TICKETS++;
-	if (vectorTickets != nullptr) {
-		delete[] vectorTickets;
-	}
-	vectorTickets = new MovieTickets[NO_TICKETS];
-	vectorTickets[this->id] = *this;
-	//MovieTickets::vectorTickets.push_back(*this);
+	
 }
 
 MovieTickets::MovieTickets() :id(++ID_COUNTER) {
 	
 	MovieTickets::NO_TICKETS++;
-	if (vectorTickets != nullptr) {
-		delete[] vectorTickets;
-	}
-	vectorTickets = new MovieTickets[NO_TICKETS];
-	vectorTickets[this->id] = *this;
-	//MovieTickets::vectorTickets.push_back(*this);
+	
 }
 
 // Copy constructor implementation
@@ -79,23 +63,7 @@ MovieTickets::MovieTickets(const MovieTickets& t) :
 // Getters implementation
 int MovieTickets::getNoTickets() { return MovieTickets::NO_TICKETS; }
 int MovieTickets::getIdCounter() { return MovieTickets::ID_COUNTER; }
-MovieTickets* MovieTickets::getVectorTickets() {
 
-	if (vectorTickets == nullptr) {
-		return nullptr;
-	}
-
-	MovieTickets* copy = new MovieTickets[NO_TICKETS];
-	for (int i = 0; i < NO_TICKETS; i++) {
-		copy[i] = vectorTickets[i];
-	}
-	return copy;
-}
-
-//std::vector<MovieTickets>& MovieTickets::getVectorTickets() {
-//
-//	return MovieTickets::vectorTickets;
-//}
 
 int MovieTickets::getId() { return this->id; }
 const char* MovieTickets::getSeatNumber() { return this->seatNumber; }		// compare to getTime, getDate (which is better?)
@@ -230,9 +198,7 @@ MovieTickets::~MovieTickets() {
 	}
 	
 	MovieTickets::NO_TICKETS--;
-	if (NO_TICKETS == 0) {
-		delete[] vectorTickets;
-	}
+
 }
 
 // Overloaded operators implementation
@@ -348,18 +314,6 @@ MovieTickets MovieTickets::operator++(int) {
 	this->price++;
 	return copy;
 }
-
-// Indexing operator[]
-//MovieTickets& MovieTickets::operator[](size_t index) {
-//
-//	if (index < MovieTickets::vectorTickets.size()) {
-//		return MovieTickets::vectorTickets[index];
-//	}
-//	else {
-//		std::cerr << "Index out of bounds! Returning first element." << std::endl;		// throw exception here
-//		return MovieTickets::vectorTickets[0];
-//	}
-//}
 
 
 std::ostream& operator<<(std::ostream& out, MovieTickets& t) {

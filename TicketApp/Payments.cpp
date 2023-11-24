@@ -100,14 +100,32 @@ void Payments::setAmount(const double* _ticketPrice, int _noTickets) {
 	}
 }
 
-string Payments::operator[](int index) {
+// Operator[] - read and write
+string& Payments::operator[](int index) {
 
 	if (this->tickets == nullptr)
-		return "No tickets";			// exception
-	if (index >= this->noTickets)
-		return "Index out of bounds";	// exception
+		throw ReadAccessViolationException("Tickets: cannot read from memory at this location.");
+
+	if ((index < 0) || (index >= this->noTickets))
+		throw IndexOutOfBoundsException("Tickets: Requested index out of bounds.");
+
 	return this->tickets[index];
 }
+
+// Pre-increment
+//Payments Payments::operator++() {
+//
+//	// pre-increment the price of ticket to the next one (i.e., update amount)
+//	// in the ticketPrice vector
+//}
+
+// Post-increment
+//Payments Payments::operator++(int) {
+//
+//	// post-increment the price of ticket to the next one (i.e., update amount)
+//	// in the ticketPrice vector
+//
+//}
 
 Payments::~Payments() {
 

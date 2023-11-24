@@ -18,12 +18,13 @@ public:
 
 	static char* copyString(const char* source);
 	static void setString(char*& destination, const char* source);
-	static bool validateString(std::string string);
+	static bool validateString(string string);
 	static bool validateTime(const char* source);
 	static bool validateDate(const char* source);
 	static bool isStudent(const TicketsType type);
 	static bool isVip(const TicketsType type);
 	// method - verify tickets not sold out: noTickets <= capacity
+	// method - validate tickets are not the same - double-booking not allowed (exception thrown)
 
 };
 

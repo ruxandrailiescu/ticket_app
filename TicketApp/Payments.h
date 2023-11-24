@@ -2,8 +2,7 @@
 #define PAYMENTS_H
 
 #include "MovieTickets.h"
-#include <iostream>
-using namespace std;
+
 
 class Payments
 {
@@ -30,10 +29,15 @@ public:
 	void setTicketPrice(const double* _ticketPrice, int _noTickets);
 	double getAmount();
 
-	string operator[](int index);
+	string& operator[](int index);
+	Payments operator++();
+	Payments operator++(int);
 
 protected:
+
 	void setAmount(const double* _ticketPrice, int _noTickets);
+	// method to read information from a file
+	// method to write information to a file
 };
 
 #endif

@@ -1,7 +1,6 @@
 #include "MovieTickets.h"
 #include "UtilTickets.h"
 
-#include <iostream>
 #include <string>
 #include <cctype>
 
@@ -94,10 +93,9 @@ char* MovieTickets::getDate() {
 // Setters implementation
 void MovieTickets::setMovieName(const char* _movieName) {				
 
-	if (!UtilTickets::validateString(std::string(_movieName))) {
+	if (!UtilTickets::validateString(string(_movieName))) {
 
-		std::cout << std::endl << "Invalid movie name." << std::endl;
-		return;
+		throw InvalidInputException("Invalid movie name");
 	}
 	else {
 
@@ -107,10 +105,9 @@ void MovieTickets::setMovieName(const char* _movieName) {
 
 void MovieTickets::setTheaterName(const char* _theaterName) {				
 
-	if (!UtilTickets::validateString(std::string(_theaterName))) {
+	if (!UtilTickets::validateString(string(_theaterName))) {
 
-		std::cout << std::endl << "Invalid theater name." << std::endl;
-		return;
+		throw InvalidInputException("Invalid theater name");
 	}
 	else {
 
@@ -122,24 +119,20 @@ void MovieTickets::setSeatNumber(const char* _seatNumber) {		// test			regex for
 
 	// Seat numbers should be of the form: 'A10'
 	if (_seatNumber[0] == '\0') {
-		std::cerr << std::endl << "Error: Empty string." << std::endl;
-		return;
+		throw InvalidInputException("Empty string");
 	}
 
-	if ((!std::isalpha(_seatNumber[0])) || (!std::isupper(_seatNumber[0]))) {
-		std::cerr << std::endl << "Error: Does not begin with an uppercase letter." << std::endl;
-		return;
+	if ((!isalpha(_seatNumber[0])) || (!isupper(_seatNumber[0]))) {
+		throw InvalidInputException("Seat number: rows should begin with an uppercase letter");
 	}
 
 	for (int i = 1; i <= 2; i++) {
-		if (!std::isdigit(_seatNumber[i])) {
-			std::cerr << std::endl << "Error: Characters following the uppercase letter are not digits." << std::endl;
-			return;
+		if (!isdigit(_seatNumber[i])) {
+			throw InvalidInputException("Seat numbers contain 2 digits");
 		}
 	}
 
 	strcpy_s(this->seatNumber, sizeof(this->seatNumber), _seatNumber);
-//	strcpy_s(this->seatNumber, strlen(_seatNumber), _seatNumber);
 	this->seatNumber[3] = '\0';
 }
 
@@ -148,12 +141,10 @@ void MovieTickets::setTime(const char* _time) {
 	if (UtilTickets::validateTime(_time)) {
 		
 		strcpy_s(this->time, sizeof(this->time), _time);
-//		strcpy_s(this->time, strlen(_time), _time);
 		this->time[5] = '\0';
 	}
 	else {
-
-		std::cout << std::endl << "Invalid time format." << std::endl;
+		throw InvalidInputException("Invalid time format");
 	}
 }
 
@@ -162,12 +153,10 @@ void MovieTickets::setDate(const char* _date) {
 	if (UtilTickets::validateDate(_date)) {
 
 		strcpy_s(this->date, sizeof(this->date), _date);
-//		strcpy_s(this->date, strlen(_date), _date);
 		this->date[10] = '\0';
 	}
 	else {
-
-		std::cout << std::endl << "Invalid date format." << std::endl;
+		throw InvalidInputException("Invalid date format");
 	}
 }
 
@@ -255,13 +244,10 @@ bool MovieTickets::operator==(const MovieTickets& t) {
 	}
 
 	// see if tickets are the same - movie, theater, seat number, date, time
-	// throw exception - double-booking not allowed
 	if ((this->movieName == t.movieName) && (this->theaterName == t.theaterName) &&
 		(this->seatNumber == t.seatNumber) && (this->date == t.date) && (this->time == t.time)) {
 		return true;
-		// ... exception
 	}
-
 	return false;
 }
 
@@ -271,7 +257,6 @@ bool MovieTickets::operator>(const MovieTickets& t) {
 	if ((this == &t) || (this->price <= t.price)) {
 		return false;
 	}
-
 	return true;
 }
 
@@ -281,19 +266,18 @@ bool MovieTickets::operator<(const MovieTickets& t) {
 	if ((this == &t) || (this->price >= t.price)) {
 		return false;
 	}
-
 	return true;
 }
 
 // Cast operator to string
-MovieTickets::operator std::string() {
+MovieTickets::operator string() {
 
-	std::string strResult = std::to_string(this->id);
+	string strResult = to_string(this->id);
 
 	if ((this->movieName != nullptr) && (this->theaterName != nullptr)) {		// verification works with && because in order to instantiate
 																				// MovieTickets obj, either use default constr (movieName AND theaterName == nullptr)
-		strResult += " " + std::string(this->movieName) +						// or must pass both
-			" " + std::string(this->theaterName) +	
+		strResult += " " + string(this->movieName) +							// or must pass both
+			" " + string(this->theaterName) +	
 			" " + this->seatNumber + " " + this->date + " " + this->time;
 	}
 	
@@ -316,23 +300,23 @@ MovieTickets MovieTickets::operator++(int) {
 }
 
 
-std::ostream& operator<<(std::ostream& out, MovieTickets& t) {
+ostream& operator<<(ostream& out, MovieTickets& t) {
 
-	out << std::endl << "Movie name: " << t.getMovieName();
-	out << std::endl << "Theater name: " << t.getTheaterName();
-	out << std::endl << "Seat number: " << t.getSeatNumber();
-	out << std::endl << "Date: " << t.getDate();
-	out << std::endl << "Time: " << t.getTime();
-	out << std::endl << "Ticket type: " << t.getType();
-	out << std::endl << "Price: " << t.getPrice();
-	out << std::endl;
+	out << endl << "Movie name: " << t.getMovieName();
+	out << endl << "Theater name: " << t.getTheaterName();
+	out << endl << "Seat number: " << t.getSeatNumber();
+	out << endl << "Date: " << t.getDate();
+	out << endl << "Time: " << t.getTime();
+	out << endl << "Ticket type: " << t.getType();
+	out << endl << "Price: " << t.getPrice();
+	out << endl;
 
 	return out;
 
 	// messages to alert user that certain attributes are not assigned - default constr and other
 }
 
-std::istream& operator>>(std::istream& in, MovieTickets& t) {
+istream& operator>>(istream& in, MovieTickets& t) {
 
 	// create input validation method and call it here 
 	// (to avoid making istream a friend)
@@ -341,7 +325,7 @@ std::istream& operator>>(std::istream& in, MovieTickets& t) {
 	return in;
 }
 
-std::ostream& operator<<(std::ostream& out, const TicketsType& _type) {
+ostream& operator<<(ostream& out, const TicketsType& _type) {
 
 	switch (_type) {
 	case TicketsType::NORMAL:
@@ -365,25 +349,34 @@ std::ostream& operator<<(std::ostream& out, const TicketsType& _type) {
 // Generic methods implementation
 void MovieTickets::displayTicketDetails() {
 
-	std::cout << std::endl << "Ticket ID: " << this->id;
-	std::cout << std::endl << "Movie name: " << this->movieName;
-	std::cout << std::endl << "Theater name: " << this->theaterName;
-	std::cout << std::endl << "Seat number: " << this->seatNumber;
-	std::cout << std::endl << "Ticket type: " << this->type;
-	std::cout << std::endl << "Ticket price: " << this->price;
-	std::cout << std::endl << "Date: " << this->date;
-	std::cout << std::endl << "Time: " << this->time;
+	cout << endl << "Ticket ID: " << this->id;
+
+	if (this->movieName == nullptr)
+		throw ReadAccessViolationException("Movie name: cannot read from memory at this location.");
+	else {
+		cout << endl << "Movie name: " << this->movieName;
+	}
+
+	if (this->theaterName == nullptr)
+		throw ReadAccessViolationException("Theater name: cannot read from memory at this location.");
+	else {
+		cout << endl << "Theater name: " << this->theaterName;
+	}
+	
+	cout << endl << "Seat number: " << this->seatNumber;
+	cout << endl << "Ticket type: " << this->type;
+	cout << endl << "Ticket price: " << this->price;
+	cout << endl << "Date: " << this->date;
+	cout << endl << "Time: " << this->time;
 
 }
 
-bool MovieTickets::inputString(std::string& s, const char* item) {
+bool MovieTickets::inputString(string& s, const char* item) {
 
-	std::cout << std::endl << "Enter " << item << " : ";
+	cout << endl << "Enter " << item << " : ";
 
-	if (!std::getline(std::cin, s)) {
-
-		std::cerr << std::endl << "Invalid input/Error occurred.";
-		return false;
+	if (!getline(cin, s)) {
+		throw InvalidInputException("Invalid input");
 	}
 	return true;
 }
@@ -393,17 +386,17 @@ void MovieTickets::inputValidation() {
 	// if obj instantiated with one of the constructors
 	// having less parameters than member variables of class
 
-	std::string t_movieName;
-	std::string t_theaterName;
-	std::string t_seatNumber;
-	std::string t_time;
-	std::string t_date;
+	string t_movieName;
+	string t_theaterName;
+	string t_seatNumber;
+	string t_time;
+	string t_date;
 	double t_price = 0;
 
 	// obj will always have an id
 	if (this->movieName == nullptr) {
 		
-		/*std::cin.ignore();*/
+		//cin.ignore();
 		if (!inputString(t_movieName, "movie")) {
 			return;
 		}
@@ -439,12 +432,10 @@ void MovieTickets::inputValidation() {
 
 	if (this->price == 0) {
 
-		std::cout << std::endl << "Enter price: ";
+		cout << endl << "Enter price: ";
 
-		if (!(std::cin >> t_price)) {
-			
-			std::cerr << std::endl << "Invalid input/Error occurred.";
-			return;
+		if (!(cin >> t_price)) {
+			throw InvalidInputException("Invalid price");
 		}
 	}
 

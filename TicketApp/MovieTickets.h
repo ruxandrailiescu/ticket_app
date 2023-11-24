@@ -2,8 +2,10 @@
 #define MOVIETICKETS_H
 #define PRICE_MAX 99999.9999999
 
+#include "Exceptions.h"
 #include <iostream>
-//#include <vector>
+using namespace std;
+using namespace Exceptions;
 
 enum class TicketsType {NORMAL, VIP, STUDENT};
 
@@ -18,7 +20,7 @@ class MovieTickets
 	double price = 0;
 	TicketsType type = TicketsType::NORMAL;
 
-//	int capacity = 0;
+	//int capacity = 0;
 	static int NO_TICKETS;
 	static int ID_COUNTER;
 
@@ -57,7 +59,7 @@ public:
 	bool operator==(const MovieTickets& t);
 	bool operator>(const MovieTickets& t);
 	bool operator<(const MovieTickets& t);
-	explicit operator std::string();
+	explicit operator string();
 	MovieTickets operator++();
 	MovieTickets operator++(int);
 	//MovieTickets& operator[](size_t index);
@@ -65,7 +67,7 @@ public:
 	// Generic methods
 	void displayTicketDetails();
 	void inputValidation();
-	bool inputString(std::string& s, const char* item);
+	bool inputString(string& s, const char* item);
 
 
 protected:
@@ -83,10 +85,10 @@ protected:
 };
 
 // Output and input streams
-std::ostream& operator<<(std::ostream& out, MovieTickets& t);
-std::istream& operator>>(std::istream& in, MovieTickets& t);
+ostream& operator<<(ostream& out, MovieTickets& t);
+istream& operator>>(istream& in, MovieTickets& t);
 
 // Output ticket type
-std::ostream& operator<<(std::ostream& out, const TicketsType& _type);
+ostream& operator<<(ostream& out, const TicketsType& _type);
 
 #endif

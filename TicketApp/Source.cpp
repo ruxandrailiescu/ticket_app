@@ -105,4 +105,32 @@ int main() {
 
 	// Tests -- Payments:
 
+	Payments p0;
+
+	string* tickets = new string[2];
+	tickets[0] = "1";
+	tickets[1] = "2";
+
+	double* ticketPrices = new double[2];
+	ticketPrices[0] = 20;
+	ticketPrices[1] = 30;
+
+	Payments p1(1, 50, 2, tickets, 1, ticketPrices);
+	Payments p2 = p1;
+	p0 = p2;
+
+	cout << endl << p0[1];
+
+	Payments p3;
+	//p3 = p0++;		// ERROR		-- also copy constr called - PAYMENTS incremented (unwanted behaviour)
+	//p2 = ++p0;		// ERROR
+
+	cout << endl << p2 << endl;
+
+	unordered_map<int, double> payments = Payments::getPayments();
+	unordered_map<int, double>::iterator itr;
+	cout << endl << "All payments: " << endl;
+	for (itr = payments.begin(); itr != payments.end(); itr++) {
+		cout << itr->first << "  " << itr->second << endl;			// amount for p0 not ok
+	}
 }

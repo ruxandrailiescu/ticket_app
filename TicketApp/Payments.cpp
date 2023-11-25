@@ -1,27 +1,36 @@
 #include "Payments.h"
 
 int Payments::PAYMENTS = 0;
+int Payments::ID_COUNTER = 0;
+unordered_map<int, double>Payments::umap = {};		// FOR ALL PAYMENTS - payment id -> total amount
 
-Payments::Payments() :id("") {
 
-	this->amount = 0;
+unordered_map<int, double> Payments::getPayments() { return Payments::umap; }
+
+Payments::Payments() :id(++ID_COUNTER) {
+
+	this->amount = 0;				// FOR A SINGLE PAYMENT:
 	this->noTickets = 0;			// no of tickets bought
 	this->tickets = nullptr;		// vector with ticket ids - do they exist?
 	this->isPaid = false;		
-	this->ticketPrice = nullptr;	// vector with prices for each ticket - are prices correct for each ticket (based on id)?
+	this->ticketPrices = nullptr;	// vector with prices for each ticket - are prices correct for each ticket (based on id)?
+
+	Payments::umap[this->id] = this->amount;
 }
 
-Payments::Payments(string _id, double _amount, int _noTickets, const string* _tickets, bool _isPaid, const double* _ticketPrice) :id(_id), isPaid(_isPaid) {
+Payments::Payments(int _id, double _amount, int _noTickets, const string* _tickets, bool _isPaid, const double* _ticketPrices) :id(++ID_COUNTER), isPaid(_isPaid) {
 
 	this->setTickets(_tickets, _noTickets);
-	this->setTicketPrice(_ticketPrice, _noTickets);
-	this->setAmount(this->ticketPrice, this->noTickets);
+	this->setTicketPrices(_ticketPrices, _noTickets);
+	this->setAmount(this->ticketPrices, this->noTickets);
 
 	if (this->isPaid)
 		Payments::PAYMENTS++;
+
+	Payments::umap[this->id] = this->amount;		// validation if amount has not been set
 }
 
-Payments::Payments(const Payments& p):Payments(p.id, p.amount, p.noTickets, p.tickets, p.isPaid, p.ticketPrice){}
+Payments::Payments(const Payments& p):Payments(p.id, p.amount, p.noTickets, p.tickets, p.isPaid, p.ticketPrices){}
 
 Payments& Payments::operator=(const Payments& p) {
 
@@ -29,9 +38,11 @@ Payments& Payments::operator=(const Payments& p) {
 		return *this;
 
 	this->setTickets(p.tickets, p.noTickets);
-	this->setTicketPrice(p.ticketPrice, p.noTickets);
+	this->setTicketPrices(p.ticketPrices, p.noTickets);
 	this->amount = p.amount;
 	this->isPaid = p.isPaid;
+
+	Payments::umap[this->id] = p.ticketPrices[p.id];
 
 	return *this;
 }
@@ -61,38 +72,38 @@ void Payments::setTickets(const string* _tickets, int _noTickets) {
 	}
 }
 
-double* Payments::getTicketPrice() {
+double* Payments::getTicketPrices() {
 
-	if ((this->ticketPrice != nullptr) && (this->noTickets > 0)) {
+	if ((this->ticketPrices != nullptr) && (this->noTickets > 0)) {
 		double* copy = new double[this->noTickets];
 		for (int i = 0; i < this->noTickets; i++)
-			copy[i] = this->ticketPrice[i];
+			copy[i] = this->ticketPrices[i];
 		return copy;
 	}
 	return nullptr;
 }
 
-void Payments::setTicketPrice(const double* _ticketPrice, int _noTickets) {
+void Payments::setTicketPrices(const double* _ticketPrice, int _noTickets) {
 
 	// validation to see if tickets (obj) exist? (e.g., MovieTickets obj)
 	if ((_ticketPrice != nullptr) && (_noTickets > 0)) {
-		if (this->ticketPrice != nullptr)
-			delete[] this->ticketPrice;
+		if (this->ticketPrices != nullptr)
+			delete[] this->ticketPrices;
 
-		this->ticketPrice = new double[_noTickets];
+		this->ticketPrices = new double[_noTickets];
 		for (int i = 0; i < _noTickets; i++)
-			this->ticketPrice[i] = _ticketPrice[i];
+			this->ticketPrices[i] = _ticketPrice[i];
 		this->noTickets = _noTickets;
 	}
 }
 
 double Payments::getAmount() { return this->amount; }
 
-void Payments::setAmount(const double* _ticketPrice, int _noTickets) {
+void Payments::setAmount(const double* _ticketPrices, int _noTickets) {
 
-	if ((_ticketPrice != nullptr) && (_noTickets > 0)) {
+	if ((_ticketPrices != nullptr) && (_noTickets > 0)) {
 		for (int i = 0; i < _noTickets; i++) {
-			this->amount += _ticketPrice[i];
+			this->amount += _ticketPrices[i];
 		}
 	}
 	else {
@@ -113,27 +124,86 @@ string& Payments::operator[](int index) {
 }
 
 // Pre-increment
-//Payments Payments::operator++() {
-//
-//	// pre-increment the price of ticket to the next one (i.e., update amount)
-//	// in the ticketPrice vector
-//}
+Payments Payments::operator++() {
+
+	// pre-increment the amount of the payment by last ticket added
+	// in the ticketPrices vector (i.e., update amount, umap, ticketPrices)
+
+	double _price = this->ticketPrices[this->noTickets - 1];
+	string _id = this->tickets[this->noTickets - 1];
+	double* tempPrices = new double[this->noTickets + 1];
+	string* tempTickets = new string[this->noTickets + 1];
+
+	for (int i = 0; i < this->noTickets; i++) {
+		tempPrices[i] = this->ticketPrices[i];
+		tempTickets[i] = this->tickets[i];
+	}
+	tempPrices[this->noTickets] = _price;
+	tempTickets[this->noTickets] = _id;
+
+	this->setTicketPrices(tempPrices, this->noTickets + 1);
+	this->setTickets(tempTickets, this->noTickets + 1);
+	this->setAmount(this->ticketPrices, this->noTickets);
+
+	Payments::umap[this->id] = this->amount;
+
+	delete[] tempPrices;
+	delete[] tempTickets;
+	return *this;
+}
 
 // Post-increment
-//Payments Payments::operator++(int) {
-//
-//	// post-increment the price of ticket to the next one (i.e., update amount)
-//	// in the ticketPrice vector
-//
-//}
+Payments Payments::operator++(int) {
+
+	// post-increment the amount of the payment by the last ticket added
+	// in the ticketPrices vector
+
+	Payments p = *this;
+
+	double _price = this->ticketPrices[this->noTickets - 1];
+	string _id = this->tickets[this->noTickets - 1];
+	double* tempPrices = new double[this->noTickets + 1];
+	string* tempTickets = new string[this->noTickets + 1];
+
+	for (int i = 0; i < this->noTickets; i++) {
+		tempPrices[i] = this->ticketPrices[i];
+		tempTickets[i] = this->tickets[i];
+	}
+	tempPrices[this->noTickets] = _price;
+	tempTickets[this->noTickets] = _id;
+
+	this->setTicketPrices(tempPrices, this->noTickets + 1);
+	this->setTickets(tempTickets, this->noTickets + 1);
+	this->setAmount(this->ticketPrices, this->noTickets);
+
+	Payments::umap[this->id] = this->amount;
+
+	delete[] tempPrices;
+	delete[] tempTickets;
+
+	return p;
+}
+
+ostream& operator<<(ostream& out, const Payments& p) {
+
+	out << endl << "Payment ID: " << p.id;
+	out << endl << "No tickets: " << p.noTickets;
+	out << endl;
+	for (int i = 0; i < p.noTickets; i++)
+		out << p.tickets[i] << "  ";
+	out << endl << "Total amount: " << p.amount;
+	out << endl << "Payment status: " << p.isPaid;
+
+	return out;
+}
 
 Payments::~Payments() {
 
 	if (this->tickets != nullptr)
 		delete[] this->tickets;
 
-	if (this->ticketPrice != nullptr)
-		delete[] this->ticketPrice;
+	if (this->ticketPrices != nullptr)
+		delete[] this->ticketPrices;
 
 	Payments::PAYMENTS--;
 }

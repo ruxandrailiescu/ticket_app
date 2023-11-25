@@ -9,7 +9,7 @@ using namespace Exceptions;
 
 enum class TicketsType {NORMAL, VIP, STUDENT};
 
-class MovieTickets
+class MovieTickets			// should inherit from Event class - transform this class in Event and build accordingly (?)
 {
 	const int id;
 	char* movieName = nullptr;
@@ -62,7 +62,6 @@ public:
 	explicit operator string();
 	MovieTickets operator++();
 	MovieTickets operator++(int);
-	//MovieTickets& operator[](size_t index);
 
 	// Generic methods
 	void displayTicketDetails();

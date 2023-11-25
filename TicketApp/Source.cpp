@@ -1,6 +1,7 @@
 #include "MovieTickets.h"
 #include "UtilTickets.h"
 #include "Payments.h"
+#include "EventLocations.h"
 
 
 int main() {
@@ -133,4 +134,8 @@ int main() {
 	for (itr = payments.begin(); itr != payments.end(); itr++) {
 		cout << itr->first << "  " << itr->second << endl;			// amount for p0 not ok
 	}
+
+	
+	// Tests -- EventLocations
+
 }

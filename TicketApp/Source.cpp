@@ -5,6 +5,8 @@
 
 
 int main() {
+	
+	// Create unit tests (!!!) - in main only start menu
 
 	// Tests -- MovieTickets:
 	
@@ -137,5 +139,23 @@ int main() {
 
 	
 	// Tests -- EventLocations
+	EventLocations e0;
 
+	string* avSeats = new string[3];
+	avSeats[0] = "A12";
+	avSeats[1] = "b12";
+	avSeats[2] = "C12";
+
+	try {
+		EventLocations e1("Romexpo", "Bucuresti", avSeats, 3, 5);
+	}
+	catch (const InvalidInputException& e) {
+		cout << endl << e.what();
+	}
+
+	//EventLocations e2 = e1;
+
+	//e0 = e1;
+	cout << endl << e0;
+	cout << endl << (int)e0;
 }

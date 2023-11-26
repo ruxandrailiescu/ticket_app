@@ -13,10 +13,11 @@ EventLocations::EventLocations() {
 	EventLocations::NO_LOCATIONS++;
 }
 
-EventLocations::EventLocations(string _location, string _address, const string* _availableSeats, int _noAvailableSeats, int _maxNoSeats) : maxNoSeats(_maxNoSeats) {
+EventLocations::EventLocations(string _location, string _address, const string* _availableSeats, int _noAvailableSeats, int _maxNoSeats) {
 
 	this->setLocationAddress(_location, _address);
 	this->setAvailableSeats(_availableSeats, _noAvailableSeats);
+	this->setMaxNoSeats(_maxNoSeats);
 
 	EventLocations::NO_LOCATIONS++;
 
@@ -31,7 +32,7 @@ EventLocations& EventLocations::operator=(const EventLocations& l) {
 
 	this->setLocationAddress(l.location, l.address);
 	this->setAvailableSeats(l.availableSeats, l.noAvailableSeats);
-	this->maxNoSeats = l.maxNoSeats;
+	this->setMaxNoSeats(l.maxNoSeats);
 
 	return *this;
 }
@@ -69,6 +70,9 @@ void EventLocations::setLocationAddress(string _location, string _address) {
 
 void EventLocations::setAvailableSeats(const string* _availableSeats, int _noAvailableSeats) {
 
+	if (!this->validateSeats(_availableSeats, _noAvailableSeats))
+		throw InvalidInputException("Cannot set available seats.");
+
 	if ((_availableSeats == nullptr) || (_noAvailableSeats <= 0)) {
 		throw ReadAccessViolationException("Available seats: Cannot read from memory at this location.");
 	}
@@ -83,6 +87,17 @@ void EventLocations::setAvailableSeats(const string* _availableSeats, int _noAva
 	}
 }
 
+void EventLocations::setMaxNoSeats(int _maxNoSeats) {
+
+	if (_maxNoSeats > 0)
+		this->maxNoSeats = _maxNoSeats;
+	else {
+		throw InvalidInputException("Max no of seats: Invalid input.");
+	}
+}
+
+EventLocations::operator int() { return this->noAvailableSeats; }
+
 ostream& operator<<(ostream& out, const EventLocations& l) {
 
 	out << endl << "Location: " << l.location;
@@ -93,6 +108,19 @@ ostream& operator<<(ostream& out, const EventLocations& l) {
 	for (int i = 0; i < l.noAvailableSeats; i++)
 		out << l.availableSeats[i] << " | ";
 	return out;
+}
+
+bool EventLocations::validateSeats(const string* _availableSeats, int _noAvailableSeats) {
+
+	for (int i = 0; i < _noAvailableSeats; i++) {
+		if (_availableSeats[i].empty())
+			throw InvalidInputException("Available seats: Must not be empty.");
+
+		regex seatRegex(R"([A-Z][1-9][0-9])");
+		if (!regex_match(_availableSeats[i], seatRegex))
+			throw InvalidInputException("Available seats: Wrong format.");
+	}
+	return true;
 }
 
 EventLocations::~EventLocations() {

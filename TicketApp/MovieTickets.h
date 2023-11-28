@@ -20,7 +20,6 @@ class MovieTickets			// should inherit from Event class - transform this class i
 	double price = 0;
 	TicketsType type = TicketsType::NORMAL;
 
-	//int capacity = 0;
 	static int NO_TICKETS;
 	static int ID_COUNTER;
 

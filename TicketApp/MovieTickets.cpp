@@ -65,7 +65,7 @@ int MovieTickets::getIdCounter() { return MovieTickets::ID_COUNTER; }
 
 
 int MovieTickets::getId() { return this->id; }
-const char* MovieTickets::getSeatNumber() { return this->seatNumber; }		// compare to getTime, getDate (which is better?)
+const char* MovieTickets::getSeatNumber() { return this->seatNumber; }
 double MovieTickets::getPrice() { return this->price; }
 TicketsType MovieTickets::getType() { return this->type; }
 
@@ -81,12 +81,12 @@ char* MovieTickets::getTheaterName() {
 
 char* MovieTickets::getTime() {
 
-	return UtilTickets::copyString(this->time);		// created dynamically-allocated copy of this->time (which is static)
+	return UtilTickets::copyString(this->time);
 }
 
 char* MovieTickets::getDate() {
 
-	return UtilTickets::copyString(this->date);		// created dynamically-allocated copy of this->time (which is static)
+	return UtilTickets::copyString(this->date);
 }
 
 
@@ -115,7 +115,7 @@ void MovieTickets::setTheaterName(const char* _theaterName) {
 	}
 }
 
-void MovieTickets::setSeatNumber(const char* _seatNumber) {		// test			regex for seat numbers - compare to capacity (columns, rows)
+void MovieTickets::setSeatNumber(const char* _seatNumber) {		// regex for seat numbers - compare to capacity (columns, rows)
 
 	// Seat numbers should be of the form: 'A10'
 	if (_seatNumber[0] == '\0') {

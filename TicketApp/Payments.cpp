@@ -123,7 +123,7 @@ string& Payments::operator[](int index) {
 	return this->tickets[index];
 }
 
-// Pre-increment
+// Pre-increment -- ERROR
 Payments Payments::operator++() {
 
 	// pre-increment the amount of the payment by last ticket added
@@ -152,11 +152,11 @@ Payments Payments::operator++() {
 	return *this;
 }
 
-// Post-increment
+// Post-increment -- ERROR
 Payments Payments::operator++(int) {
 
 	// post-increment the amount of the payment by the last ticket added
-	// in the ticketPrices vector
+	// in the ticketPrices vector (i.e., update amount, umap, ticketPrices)
 
 	Payments p = *this;
 

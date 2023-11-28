@@ -2,6 +2,7 @@
 #define UTILTICKETS_H
 
 #include "MovieTickets.h"
+#include "EventLocations.h"
 
 #include <string>
 #include <regex>
@@ -23,7 +24,7 @@ public:
 	static bool validateDate(const char* source);
 	static bool isStudent(const TicketsType type);
 	static bool isVip(const TicketsType type);
-	// method - verify tickets not sold out: noTickets <= capacity
+	static bool isSoldOut(int soldTickets, int capacity);
 	// method - validate tickets are not the same - double-booking not allowed (exception thrown)
 
 };

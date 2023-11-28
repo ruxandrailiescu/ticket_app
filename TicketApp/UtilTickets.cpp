@@ -64,6 +64,10 @@ bool UtilTickets::isVip(const TicketsType type) {
 	return (type == TicketsType::VIP);
 }
 
-// method - verify tickets not sold out: noTickets <= capacity
+bool UtilTickets::isSoldOut(int soldTickets, int capacity) {
+
+	return (soldTickets <= capacity);
+}
+
 // method - verify date is not in the past
 // method - display all occupied and remaining seats

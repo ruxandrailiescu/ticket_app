@@ -42,7 +42,7 @@ protected:
 	void setAmount(const double* _ticketPrices, int _noTickets);
 	// method to read information from a file
 	// method to write information to a file
-	// method to verify that passed amount (in constr) mathces the ticketPrices*noTickets
+	// method to verify that passed amount (in constr) matches the ticketPrices*noTickets
 };
 
 #endif

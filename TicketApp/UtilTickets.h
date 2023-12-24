@@ -11,9 +11,7 @@
 class UtilTickets
 {
 	// Deactivate option of instantiating an Util obj - outside class scope
-	UtilTickets() {
-
-	}
+	UtilTickets() {}
 
 public:
 

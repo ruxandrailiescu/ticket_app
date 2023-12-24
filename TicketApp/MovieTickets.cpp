@@ -115,7 +115,7 @@ void MovieTickets::setTheaterName(const char* _theaterName) {
 	}
 }
 
-void MovieTickets::setSeatNumber(const char* _seatNumber) {		// regex for seat numbers - compare to capacity (columns, rows)
+void MovieTickets::setSeatNumber(const char* _seatNumber) {
 
 	// Seat numbers should be of the form: 'A10'
 	if (_seatNumber[0] == '\0') {

@@ -1,6 +1,5 @@
 #include "EventLocations.h"
 
-
 int EventLocations::NO_LOCATIONS = 0;
 
 EventLocations::EventLocations() {
@@ -82,7 +81,7 @@ void EventLocations::setAvailableSeats(const string* _availableSeats, int _noAva
 
 		this->availableSeats = new string[_noAvailableSeats];
 		for (int i = 0; i < _noAvailableSeats; i++)
-			this->availableSeats[i] = _availableSeats[i];		// what if _noAvailableSeats does not match _availableSeats -- should throw exception 
+			this->availableSeats[i] = _availableSeats[i];
 		this->noAvailableSeats = _noAvailableSeats;
 	}
 }

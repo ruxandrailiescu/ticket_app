@@ -35,6 +35,21 @@ EventLocations Event::getLocation() { return this->location; }
 
 char* Event::getName(){ return UtilTickets::copyString(this->name); }
 
+bool Event::operator==(const Event& e) {
+	if (this == &e)
+		return true;
+	if ((this->id == e.id) && (this->name == e.name) && (this->location == e.location))
+		return true;
+	return false;
+}
+
+ostream& operator<<(ostream& out, Event& e) {
+	out << endl << "Event id: " << e.getId();
+	out << endl << "Event name: " << e.getName();
+	out << endl << "Event location: " << e.getLocation();
+	return out;
+}
+
 Event::~Event() {
 	if (this->name != nullptr)
 		delete[] this->name;

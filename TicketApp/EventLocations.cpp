@@ -97,6 +97,14 @@ void EventLocations::setMaxNoSeats(int _maxNoSeats) {
 
 EventLocations::operator int() { return this->noAvailableSeats; }
 
+bool EventLocations::operator==(const EventLocations& l) {
+	if (this == &l)
+		return true;
+	if ((this->location == l.location) && (this->address == l.address) && (this->maxNoSeats == l.maxNoSeats))
+		return true;
+	return false;
+}
+
 ostream& operator<<(ostream& out, const EventLocations& l) {
 
 	out << endl << "Location: " << l.location;

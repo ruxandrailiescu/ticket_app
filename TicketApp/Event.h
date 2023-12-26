@@ -16,5 +16,7 @@ public:
 	string getId();
 	void setId(string _id);
 	void setName(char* _name);
+	bool operator==(const Event& e);
 	~Event();
 };
+ostream& operator<<(ostream& out, Event& e);

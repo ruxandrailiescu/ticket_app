@@ -26,6 +26,7 @@ public:
 	EventLocations& operator=(const EventLocations& l);
 	friend ostream& operator<<(ostream& out, const EventLocations& l);
 	explicit operator int();
+	bool operator==(const EventLocations& l);
 	~EventLocations();
 	
 protected:

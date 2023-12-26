@@ -18,10 +18,9 @@ protected:
 	static int ID_COUNTER;
 public:
 	virtual void displayTicketDetails() = 0;
-	virtual double getPrice() = 0;
-
+	double getPrice();
 	Ticketing();
-	Ticketing(Event _event, int _id, const char* _seatNumber, const char* _time, const char* _date, double _price);
+	Ticketing(Event _event, const char* _seatNumber, const char* _time, const char* _date, double _price);
 	Ticketing(const Ticketing& t);
 	Ticketing& operator=(const Ticketing& t);
 	Event getEvent();
@@ -42,7 +41,13 @@ public:
 	~Ticketing();
 };
 
-class Normal : public Ticketing {};
+class Normal : public Ticketing {
+	void setPrice(double _price);
+public:
+	Normal();
+	Normal(Event _event, const char* _seatNumber, const char* _time, const char* _date, double _price);
+	void displayTicketDetails();
+};
 
 class Vip : public Ticketing {
 	int bonusPoints;
@@ -50,10 +55,9 @@ class Vip : public Ticketing {
 	void setPrice(double _price);
 public:
 	Vip();
-	Vip(Event _event, int _id, const char* _seatNumber, const char* _time, const char* _date, double _price, int _bonusPoints);
+	Vip(Event _event, const char* _seatNumber, const char* _time, const char* _date, double _price, int _bonusPoints);
 	int getBonus();
-	void displyTicketDetails();
-	double getPrice();
+	void displayTicketDetails();
 };
 
 class Student :public Ticketing {
@@ -62,8 +66,7 @@ class Student :public Ticketing {
 	void setPrice(double _price);
 public:
 	Student();
-	Student(Event _event, int _id, const char* _seatNumber, const char* _time, const char* _date, double _price, int _discount);
+	Student(Event _event, const char* _seatNumber, const char* _time, const char* _date, double _price, int _discount);
 	int getDiscount();
-	void displyTicketDetails();
-	double getPrice();
+	void displayTicketDetails();
 };

@@ -10,9 +10,9 @@ class Ticketing {
 protected:
 	Event event;
 	const int id;
-	char seatNumber[4];
-	char time[6];		// hh:mm
-	char date[11];		// dd/mm/yyyy
+	char seatNumber[4] = "";
+	char time[6] = "";		// hh:mm
+	char date[11] = "";		// dd/mm/yyyy
 	double price = 0;
 	static int NO_TICKETS;
 	static int ID_COUNTER;

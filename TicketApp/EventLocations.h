@@ -18,6 +18,7 @@ class EventLocations
 
 public:
 	EventLocations();
+	EventLocations(string _location, string _address, int _maxNoSeats);
 	EventLocations(string _location, string _address, const string* _availableSeats, int _noAvailableSeats, int _maxNoSeats);
 	EventLocations(const EventLocations& l);
 	string getLocationAddress();

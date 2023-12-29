@@ -12,6 +12,13 @@ EventLocations::EventLocations() {
 	EventLocations::NO_LOCATIONS++;
 }
 
+EventLocations::EventLocations(string _location, string _address, int _maxNoSeats) {
+	this->setLocationAddress(_location, _address);
+	this->setMaxNoSeats(_maxNoSeats);
+
+	EventLocations::NO_LOCATIONS++;
+}
+
 EventLocations::EventLocations(string _location, string _address, const string* _availableSeats, int _noAvailableSeats, int _maxNoSeats) {
 
 	this->setLocationAddress(_location, _address);

@@ -1,7 +1,26 @@
 #include "Ticketing.h"
 
+Ticketing** Ticketing::tickets = nullptr;
 int Ticketing::NO_TICKETS = 0;
 int Ticketing::ID_COUNTER = 0;
+
+void Ticketing::addTicket(const Ticketing& t) {
+	Ticketing::NO_TICKETS++;
+	Ticketing** temp = new Ticketing*[Ticketing::NO_TICKETS];
+
+	if (Ticketing::tickets != nullptr) {
+		for (int i = 0; i < Ticketing::NO_TICKETS - 1; i++)
+			(*temp)[i] = (*tickets)[i];
+	}
+
+	(*temp)[Ticketing::NO_TICKETS - 1] = t;		// initialize memory for pointers to obj of Normal/Vip/Student sub-classes
+	if (Ticketing::tickets != nullptr)
+		delete[] Ticketing::tickets;
+
+	Ticketing::tickets = new Ticketing*[Ticketing::NO_TICKETS] ;
+	for (int i = 0; i < Ticketing::NO_TICKETS; i++)
+		(*tickets)[i] = (*temp)[i];
+}
 
 void Ticketing::setSeatNumber(const char* _seatNumber) {
 

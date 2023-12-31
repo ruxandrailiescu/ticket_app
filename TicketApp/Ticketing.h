@@ -14,9 +14,12 @@ protected:
 	char time[6] = "";		// hh:mm
 	char date[11] = "";		// dd/mm/yyyy
 	double price = 0;
+
+	static Ticketing** tickets;
 	static int NO_TICKETS;
 	static int ID_COUNTER;
 public:
+	static void addTicket(const Ticketing& t);
 	virtual void displayTicketDetails() = 0;
 	double getPrice();
 	Ticketing();

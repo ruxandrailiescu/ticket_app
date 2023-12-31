@@ -5,7 +5,6 @@
 
 class Menu
 {
-	Menu(){}
 public:
 	// 0 - user, 1 - admin
 	int whoIs = -1;
@@ -17,4 +16,3 @@ public:
 	void generateTicket();
 	void validateTicket();
 };
-

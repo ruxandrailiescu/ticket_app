@@ -1,6 +1,42 @@
 #include "EventLocations.h"
 
 int EventLocations::NO_LOCATIONS = 0;
+EventLocations* EventLocations::eventLocations = nullptr;
+
+void EventLocations::addEventLocation(const EventLocations& l) {
+	EventLocations::NO_LOCATIONS++;
+	EventLocations* temp = new EventLocations[EventLocations::NO_LOCATIONS];
+
+	if (EventLocations::eventLocations != nullptr) {
+		for (int i = 0; i < EventLocations::NO_LOCATIONS - 1; i++)
+			temp[i] = EventLocations::eventLocations[i];
+	}
+
+	temp[EventLocations::NO_LOCATIONS - 1] = l;
+	if (EventLocations::eventLocations != nullptr)
+		delete[] EventLocations::eventLocations;
+
+	EventLocations::eventLocations = new EventLocations[EventLocations::NO_LOCATIONS];
+	for (int i = 0; i < EventLocations::NO_LOCATIONS; i++)
+		EventLocations::eventLocations[i] = temp[i];
+}
+
+void operator>>(istream& in, EventLocations& l) {
+	cout << endl << "Location: ";
+	char buffer[256];
+	in.ignore();
+	in.getline(buffer, 256);
+
+	cout << endl << "Address: ";
+	char buffer1[256];
+	in.getline(buffer1, 256);
+	l.setLocationAddress(buffer, buffer1);
+
+	int _maxNoSeats;
+	cout << endl << "Maximum number of seats: ";
+	in >> _maxNoSeats;
+	l.setMaxNoSeats(_maxNoSeats);
+}
 
 EventLocations::EventLocations() {
 	this->location = "";
@@ -15,8 +51,6 @@ EventLocations::EventLocations() {
 EventLocations::EventLocations(string _location, string _address, int _maxNoSeats) {
 	this->setLocationAddress(_location, _address);
 	this->setMaxNoSeats(_maxNoSeats);
-
-	EventLocations::NO_LOCATIONS++;
 }
 
 EventLocations::EventLocations(string _location, string _address, const string* _availableSeats, int _noAvailableSeats, int _maxNoSeats) {

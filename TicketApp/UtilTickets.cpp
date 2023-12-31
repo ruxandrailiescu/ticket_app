@@ -1,6 +1,5 @@
 #include "UtilTickets.h"
 
-
 char* UtilTickets::copyString(const char* source) {
 
 	if (source == nullptr) {
@@ -54,20 +53,7 @@ bool UtilTickets::validateDate(const char* source) {
 	return regex_match(source, dateRegex);		// match -> true
 }
 
-bool UtilTickets::isStudent(const TicketsType type) {
-
-	return (type == TicketsType::STUDENT);
-}
-
-bool UtilTickets::isVip(const TicketsType type) {
-
-	return (type == TicketsType::VIP);
-}
-
 bool UtilTickets::isSoldOut(int soldTickets, int capacity) {
 
 	return (soldTickets <= capacity);
 }
-
-// method - verify date is not in the past
-// method - display all occupied and remaining seats

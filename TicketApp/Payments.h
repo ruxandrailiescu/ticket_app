@@ -1,8 +1,7 @@
-#ifndef PAYMENTS_H
-#define PAYMENTS_H
-
-#include "MovieTickets.h"
+#pragma once
 #include <unordered_map>
+#include "Exceptions.h"
+using namespace Exceptions;
 
 class Payments
 {
@@ -18,7 +17,6 @@ class Payments
 	static int ID_COUNTER;
 
 public:
-
 	Payments();
 	Payments(int _id, double _amount, int _noTickets, const string* _tickets, bool _isPaid, const double* _ticketPrices);
 	Payments(const Payments& p);
@@ -38,11 +36,8 @@ public:
 	static unordered_map<int, double> getPayments();
 
 protected:
-
 	void setAmount(const double* _ticketPrices, int _noTickets);
 	// method to read information from a file
 	// method to write information to a file
 	// method to verify that passed amount (in constr) matches the ticketPrices*noTickets
 };
-
-#endif

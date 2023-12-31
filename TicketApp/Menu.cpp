@@ -2,7 +2,7 @@
 
 void Menu::who() {
 	do {
-		cout << endl<< "Are you user or admin?";
+		cout << endl << "Are you user or admin?";
 		cout << endl << "Enter 0 for user or 1 for admin: ";
 		cin >> this->whoIs;
 	} while ((this->whoIs != 0) && (this->whoIs != 1));
@@ -33,7 +33,7 @@ void Menu::addEventLocation() {
 	char buffer1[256];
 	cin.getline(buffer1, 256);
 	string _address = buffer1;
-	
+
 	int _maxNoSeats;
 	cout << endl << "Maximum number of seats: ";
 	cin >> _maxNoSeats;
@@ -134,9 +134,9 @@ void Menu::start() {
 		case 3:
 			this->generateTicket();
 			break;
-		//case 4:
-		//	this->validateTicket();
-		//	break;
+			//case 4:
+			//	this->validateTicket();
+			//	break;
 		}
 	} while (choice != 5);
 }

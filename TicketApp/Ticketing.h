@@ -1,10 +1,6 @@
 #pragma once
 #define PRICE_MAX 99999.9999999
-#include "Exceptions.h"
 #include "Event.h"
-#include <iostream>
-using namespace std;
-using namespace Exceptions;
 
 class Ticketing {
 protected:

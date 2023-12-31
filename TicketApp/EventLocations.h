@@ -1,10 +1,6 @@
-#ifndef EVENTLOCATIONS_H
-#define EVENTLOCATIONS_H
-
+#pragma once
 #include "Exceptions.h"
 #include "UtilTickets.h"
-#include<iostream>
-using namespace std;
 using namespace Exceptions;
 
 class EventLocations
@@ -32,12 +28,10 @@ public:
 	bool operator==(const EventLocations& l);
 	friend void operator>>(istream& in, EventLocations& l);
 	~EventLocations();
-	
+
 protected:
 	void setLocationAddress(string _location, string _address);
 	void setAvailableSeats(const string* _availableSeats, int _noAvailableSeats);
 	void setMaxNoSeats(int _maxNoSeats);
-	bool validateSeats(const string* _availableSeats, int _noAvailableSeats); 
+	bool validateSeats(const string* _availableSeats, int _noAvailableSeats);
 };
-
-#endif

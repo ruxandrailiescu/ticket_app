@@ -72,7 +72,7 @@ string Event::getId() { return this->id; }
 
 EventLocations Event::getLocation() { return this->location; }
 
-char* Event::getName(){ return UtilTickets::copyString(this->name); }
+char* Event::getName() { return UtilTickets::copyString(this->name); }
 
 bool Event::operator==(const Event& e) {
 	if (this == &e)

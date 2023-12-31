@@ -12,7 +12,7 @@ Payments::Payments() :id(++ID_COUNTER) {
 	this->amount = 0;				// FOR A SINGLE PAYMENT:
 	this->noTickets = 0;			// no of tickets bought
 	this->tickets = nullptr;		// vector with ticket ids - do they exist?
-	this->isPaid = false;		
+	this->isPaid = false;
 	this->ticketPrices = nullptr;	// vector with prices for each ticket - are prices correct for each ticket (based on id)?
 
 	Payments::umap[this->id] = this->amount;
@@ -30,7 +30,7 @@ Payments::Payments(int _id, double _amount, int _noTickets, const string* _ticke
 	Payments::umap[this->id] = this->amount;		// validation if amount has not been set
 }
 
-Payments::Payments(const Payments& p):Payments(p.id, p.amount, p.noTickets, p.tickets, p.isPaid, p.ticketPrices){}
+Payments::Payments(const Payments& p) :Payments(p.id, p.amount, p.noTickets, p.tickets, p.isPaid, p.ticketPrices) {}
 
 Payments& Payments::operator=(const Payments& p) {
 

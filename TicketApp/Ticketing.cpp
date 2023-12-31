@@ -6,7 +6,7 @@ int Ticketing::ID_COUNTER = 0;
 
 void Ticketing::addTicket(const Ticketing& t) {
 	Ticketing::NO_TICKETS++;
-	Ticketing** temp = new Ticketing*[Ticketing::NO_TICKETS];
+	Ticketing** temp = new Ticketing * [Ticketing::NO_TICKETS];
 
 	if (Ticketing::tickets != nullptr) {
 		for (int i = 0; i < Ticketing::NO_TICKETS - 1; i++)
@@ -17,7 +17,7 @@ void Ticketing::addTicket(const Ticketing& t) {
 	if (Ticketing::tickets != nullptr)
 		delete[] Ticketing::tickets;
 
-	Ticketing::tickets = new Ticketing*[Ticketing::NO_TICKETS] ;
+	Ticketing::tickets = new Ticketing * [Ticketing::NO_TICKETS];
 	for (int i = 0; i < Ticketing::NO_TICKETS; i++)
 		(*tickets)[i] = (*temp)[i];
 }
@@ -128,7 +128,7 @@ bool Ticketing::operator==(const Ticketing& t) {
 	}
 
 	// see if tickets are the same - event, seat number, date, time
-	if ((this->event == t.event) && (this->seatNumber == t.seatNumber) 
+	if ((this->event == t.event) && (this->seatNumber == t.seatNumber)
 		&& (this->date == t.date) && (this->time == t.time)) {
 		return true;
 	}

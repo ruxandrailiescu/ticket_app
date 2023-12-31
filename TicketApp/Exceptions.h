@@ -1,10 +1,6 @@
-#ifndef EXCEPTIONS_H
-#define EXCEPTIONS_H
-
+#pragma once
 #include <iostream>
 using namespace std;
-
-// log errors ?
 
 namespace Exceptions {
 	class ReadAccessViolationException : public exception
@@ -25,6 +21,3 @@ namespace Exceptions {
 		InvalidInputException(const char* message);
 	};
 }
-
-
-#endif

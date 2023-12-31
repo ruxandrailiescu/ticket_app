@@ -63,7 +63,7 @@ EventLocations::EventLocations(string _location, string _address, const string* 
 
 }
 
-EventLocations::EventLocations(const EventLocations& l):EventLocations(l.location, l.address, l.availableSeats, l.noAvailableSeats, l.maxNoSeats){}
+EventLocations::EventLocations(const EventLocations& l) :EventLocations(l.location, l.address, l.availableSeats, l.noAvailableSeats, l.maxNoSeats) {}
 
 EventLocations& EventLocations::operator=(const EventLocations& l) {
 

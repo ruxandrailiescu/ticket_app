@@ -24,7 +24,7 @@ void EventLocations::addEventLocation(const EventLocations& l) {
 void operator>>(istream& in, EventLocations& l) {
 	cout << endl << "Location: ";
 	char buffer[256];
-	in.ignore();
+	in.clear();
 	in.getline(buffer, 256);
 
 	cout << endl << "Address: ";
@@ -36,6 +36,17 @@ void operator>>(istream& in, EventLocations& l) {
 	cout << endl << "Maximum number of seats: ";
 	in >> _maxNoSeats;
 	l.setMaxNoSeats(_maxNoSeats);
+
+	int _noAvailableSeats;
+	cout << endl << "Number of available seats: ";
+	cin >> _noAvailableSeats;
+
+	string* temp = new string[_noAvailableSeats];
+	for (int i = 0; i < _noAvailableSeats; i++) {
+		cout << endl << "Enter seat " << i + 1 << ": ";
+		cin >> temp[i];
+	}
+	l.setAvailableSeats(temp, _noAvailableSeats);
 }
 
 EventLocations::EventLocations() {
@@ -45,7 +56,7 @@ EventLocations::EventLocations() {
 	this->noAvailableSeats = 0;
 	this->maxNoSeats = 0;
 
-	EventLocations::NO_LOCATIONS++;
+	//EventLocations::NO_LOCATIONS++;
 }
 
 EventLocations::EventLocations(string _location, string _address, int _maxNoSeats) {
@@ -59,7 +70,7 @@ EventLocations::EventLocations(string _location, string _address, const string* 
 	this->setAvailableSeats(_availableSeats, _noAvailableSeats);
 	this->setMaxNoSeats(_maxNoSeats);
 
-	EventLocations::NO_LOCATIONS++;
+	//EventLocations::NO_LOCATIONS++;
 
 }
 

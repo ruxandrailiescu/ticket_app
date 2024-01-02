@@ -38,8 +38,25 @@ void Menu::addEventLocation() {
 	cout << endl << "Maximum number of seats: ";
 	cin >> _maxNoSeats;
 
-	EventLocations* newLocation = new EventLocations(_location, _address, _maxNoSeats);
-	EventLocations::addEventLocation(*newLocation);
+	int _noAvailableSeats;
+	cout << endl << "Number of available seats: ";
+	cin >> _noAvailableSeats;
+
+	string* temp = new string[_noAvailableSeats];
+	for (int i = 0; i < _noAvailableSeats; i++) {
+		cout << endl << "Enter seat " << i + 1 << ": ";
+		cin >> temp[i];
+	}
+
+	EventLocations* newLocation = new EventLocations(_location, _address, temp, _noAvailableSeats, _maxNoSeats);
+
+	try {
+		EventLocations::addEventLocation(*newLocation);
+	}
+	catch (const ReadAccessViolationException& e) {
+		cout << endl << e.what();
+	}
+	
 }
 
 void Menu::addEvent() {

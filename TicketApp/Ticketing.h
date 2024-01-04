@@ -1,6 +1,7 @@
 #pragma once
 #define PRICE_MAX 99999.9999999
 #include "Event.h"
+#include <typeinfo>
 
 class Ticketing {
 protected:
@@ -11,11 +12,9 @@ protected:
 	char date[11] = "";		// dd/mm/yyyy
 	double price = 0;
 
-	static Ticketing** tickets;
 	static int NO_TICKETS;
 	static int ID_COUNTER;
 public:
-	static void addTicket(const Ticketing& t);
 	virtual void displayTicketDetails() = 0;
 	double getPrice();
 	Ticketing();
@@ -37,18 +36,24 @@ protected:
 public:
 	bool operator!();
 	bool operator==(const Ticketing& t);
+	bool operator>(const Ticketing& t);
+	bool operator<(const Ticketing& t);
 	~Ticketing();
 };
 
 class Normal : public Ticketing {
 	void setPrice(double _price);
+	static Normal** tickets;
 public:
+	static void addTicket(const Normal* t, int type);
 	Normal();
 	Normal(Event _event, const char* _seatNumber, const char* _time, const char* _date, double _price);
 	void displayTicketDetails();
+	virtual const Normal* operator++();
+	virtual const Normal* operator++(int);
 };
 
-class Vip : public Ticketing {
+class Vip : public Normal {
 	int bonusPoints;
 	void setBonusPoints(int _bonusPoints);
 	void setPrice(double _price);
@@ -57,9 +62,11 @@ public:
 	Vip(Event _event, const char* _seatNumber, const char* _time, const char* _date, double _price, int _bonusPoints);
 	int getBonus();
 	void displayTicketDetails();
+	const Vip* operator++();
+	const Vip* operator++(int);
 };
 
-class Student :public Ticketing {
+class Student :public Normal {
 	int discount;
 	void setDiscount(int _discount);
 	void setPrice(double _price);
@@ -68,4 +75,6 @@ public:
 	Student(Event _event, const char* _seatNumber, const char* _time, const char* _date, double _price, int _discount);
 	int getDiscount();
 	void displayTicketDetails();
+	const Student* operator++();
+	const Student* operator++(int);
 };

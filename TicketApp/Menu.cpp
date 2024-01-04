@@ -107,24 +107,24 @@ void Menu::generateTicket() {
 		cout << endl << "Enter ticket type (0 - Normal, 1 - Vip, 2 - Student): ";
 		cin >> type;
 	} while ((type != 0) && (type != 1) && (type != 2));
-	Ticketing* newTicket;
+	Normal* newTicket;
 
 	switch (type) {
 	case 0:
 		newTicket = new Normal(e, _seatNumber, _time, _date, _price);
-		Ticketing::addTicket(*newTicket);
+		Normal::addTicket(newTicket, type);
 	case 1:
 		cout << endl << "Enter bonus points: ";
 		int _bonus;
 		cin >> _bonus;
 		newTicket = new Vip(e, _seatNumber, _time, _date, _price, _bonus);
-		Ticketing::addTicket(*newTicket);
+		Normal::addTicket(newTicket, type);
 	case 2:
 		cout << endl << "Enter discount: ";
 		int _discount;
 		cin >> _discount;
 		newTicket = new Student(e, _seatNumber, _time, _date, _price, _discount);
-		Ticketing::addTicket(*newTicket);
+		Normal::addTicket(newTicket, type);
 	}
 }
 

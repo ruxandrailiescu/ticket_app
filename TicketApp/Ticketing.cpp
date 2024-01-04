@@ -1,25 +1,33 @@
 #include "Ticketing.h"
 
-Ticketing** Ticketing::tickets = nullptr;
+Normal** Normal::tickets = nullptr;
 int Ticketing::NO_TICKETS = 0;
 int Ticketing::ID_COUNTER = 0;
 
-void Ticketing::addTicket(const Ticketing& t) {
+void Normal::addTicket(const Normal* t, int type) {
 	Ticketing::NO_TICKETS++;
-	Ticketing** temp = new Ticketing * [Ticketing::NO_TICKETS];
 
-	if (Ticketing::tickets != nullptr) {
-		for (int i = 0; i < Ticketing::NO_TICKETS - 1; i++)
-			(*temp)[i] = (*tickets)[i];
+	Normal** temp = new Normal * [Ticketing::NO_TICKETS];
+	for (int i = 0; i < Ticketing::NO_TICKETS - 1; i++) {
+		temp[i] = new Normal();
+		(*temp)[i] = (*tickets)[i];
 	}
 
-	(*temp)[Ticketing::NO_TICKETS - 1] = t;		// initialize memory for pointers to obj of Normal/Vip/Student sub-classes
-	if (Ticketing::tickets != nullptr)
-		delete[] Ticketing::tickets;
-
-	Ticketing::tickets = new Ticketing * [Ticketing::NO_TICKETS];
-	for (int i = 0; i < Ticketing::NO_TICKETS; i++)
+	// how to allocate memory for object if type is not known a priori
+	temp[Ticketing::NO_TICKETS - 1] = new Normal();		
+	(*temp)[Ticketing::NO_TICKETS - 1] = *t;
+	
+	if (tickets != nullptr) {
+		for (int i = 0; i < Ticketing::NO_TICKETS; i++)
+			delete tickets[i];
+		delete[] tickets;
+	}
+		
+	tickets = new Normal * [Ticketing::NO_TICKETS];
+	for (int i = 0; i < Ticketing::NO_TICKETS; i++) {
+		tickets[i] = new Normal();
 		(*tickets)[i] = (*temp)[i];
+	}
 }
 
 void Ticketing::setSeatNumber(const char* _seatNumber) {
@@ -135,6 +143,35 @@ bool Ticketing::operator==(const Ticketing& t) {
 	return false;
 }
 
+const Normal* Normal::operator++() {
+
+	this->price++;
+	return this;
+}
+
+const Normal* Normal::operator++(int) {
+
+	Normal* copy = new Normal(*this);
+	this->price++;
+	return copy;
+}
+
+bool Ticketing::operator>(const Ticketing& t) {
+
+	if ((this == &t) || (this->price <= t.price)) {
+		return false;
+	}
+	return true;
+}
+
+bool Ticketing::operator<(const Ticketing& t) {
+
+	if ((this == &t) || (this->price >= t.price)) {
+		return false;
+	}
+	return true;
+}
+
 void Ticketing::displayTicketDetails() {
 	cout << endl << "Event details: " << this->event;
 	cout << endl << "Id: " << this->id;
@@ -178,7 +215,7 @@ Vip::Vip() {
 }
 
 Vip::Vip(Event _event, const char* _seatNumber, const char* _time, const char* _date, double _price, int _bonusPoints)
-	: Ticketing(_event, _seatNumber, _time, _date, _price) {
+	: Normal(_event, _seatNumber, _time, _date, _price) {
 	this->setBonusPoints(_bonusPoints);
 }
 
@@ -188,6 +225,19 @@ void Vip::displayTicketDetails() {
 	cout << endl << "-----This is a Vip ticket-----";
 	Ticketing::displayTicketDetails();
 	cout << endl << "Bonus points: " << this->bonusPoints;
+}
+
+const Vip* Vip::operator++() {
+
+	this->price = this->price * 1.5;
+	return this;
+}
+
+const Vip* Vip::operator++(int) {
+
+	Vip* copy = new Vip(*this);
+	this->price = this->price * 1.5;
+	return copy;
 }
 
 void Student::setDiscount(int _discount) {
@@ -209,7 +259,7 @@ Student::Student() {
 }
 
 Student::Student(Event _event, const char* _seatNumber, const char* _time, const char* _date, double _price, int _discount)
-	: Ticketing(_event, _seatNumber, _time, _date, _price) {
+	: Normal(_event, _seatNumber, _time, _date, _price) {
 	this->setDiscount(_discount);
 }
 
@@ -219,4 +269,17 @@ void Student::displayTicketDetails() {
 	cout << endl << "-----This is a Student ticket-----";
 	Ticketing::displayTicketDetails();
 	cout << endl << "Discount: " << this->discount;
+}
+
+const Student* Student::operator++() {
+
+	this->price = this->price * 1.1;
+	return this;
+}
+
+const Student* Student::operator++(int) {
+
+	Student* copy = new Student(*this);
+	this->price = this->price * 1.1;
+	return copy;
 }

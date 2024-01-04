@@ -128,8 +128,8 @@ void EventLocations::setAvailableSeats(const string* _availableSeats, int _noAva
 		throw ReadAccessViolationException("Available seats: Cannot read from memory at this location.");
 	}
 	else {
-		if (this->availableSeats != nullptr)
-			delete[] this->availableSeats;
+		//if (this->availableSeats != nullptr)
+		//	delete[] this->availableSeats;
 
 		this->availableSeats = new string[_noAvailableSeats];
 		for (int i = 0; i < _noAvailableSeats; i++)
@@ -187,5 +187,5 @@ EventLocations::~EventLocations() {
 	if (this->availableSeats != nullptr)
 		delete[] this->availableSeats;
 
-	EventLocations::NO_LOCATIONS--;
+	//EventLocations::NO_LOCATIONS--;
 }

@@ -9,6 +9,9 @@ void Menu::who() {
 }
 
 void Menu::display() {
+
+	// 5. Process tickets from text file
+	// 6. Save tickets to binary file -- data has to be restored once app restarts
 	cout << endl;
 	cout << "|--------------------|\n";
 	cout << "|        MENU        |\n";
@@ -17,7 +20,9 @@ void Menu::display() {
 	cout << "| 2. Add Location    |\n";
 	cout << "| 3. Generate Ticket |\n";
 	cout << "| 4. Validate Ticket |\n";
-	cout << "| 5. Exit            |\n";
+	cout << "| 5. Process Tickets |\n";
+	cout << "| 5. Save Tickets    |\n";
+	cout << "| 7. Exit            |\n";
 	cout << "|                    |\n";
 	cout << "|--------------------|\n";
 }
@@ -107,8 +112,8 @@ void Menu::generateTicket() {
 		cout << endl << "Enter ticket type (0 - Normal, 1 - Vip, 2 - Student): ";
 		cin >> type;
 	} while ((type != 0) && (type != 1) && (type != 2));
+	
 	Normal* newTicket;
-
 	switch (type) {
 	case 0:
 		newTicket = new Normal(e, _seatNumber, _time, _date, _price);
@@ -125,6 +130,23 @@ void Menu::generateTicket() {
 		cin >> _discount;
 		newTicket = new Student(e, _seatNumber, _time, _date, _price, _discount);
 		Normal::addTicket(newTicket, type);
+	}
+}
+
+void Menu::processFileInput(const string& filename) {
+
+	// will work only for Normal tickets at the moment
+	ifstream file(filename);
+	if (file.is_open()) {
+		while (!file.eof()) {
+			Normal ticket;
+			file >> ticket;
+			cout << endl << ticket;
+		}
+		file.close();
+	}
+	else {
+		cout << endl << "***** File not found *****";
 	}
 }
 
@@ -154,6 +176,9 @@ void Menu::start() {
 			//case 4:
 			//	this->validateTicket();
 			//	break;
+		case 5:
+			this->processFileInput("TicketsInputFile.txt");
+			break;
 		}
-	} while (choice != 5);
+	} while (choice != 7);
 }

@@ -1,7 +1,7 @@
 #pragma once
 #define PRICE_MAX 99999.9999999
 #include "Event.h"
-#include <typeinfo>
+#include <fstream>
 
 class Ticketing {
 protected:
@@ -21,7 +21,7 @@ public:
 	Ticketing(Event _event, const char* _seatNumber, const char* _time, const char* _date, double _price);
 	Ticketing(const Ticketing& t);
 	Ticketing& operator=(const Ticketing& t);
-	Event getEvent();
+	const Event* getEvent();
 	int getId();
 	char* getSeatNumber();
 	char* getTime();
@@ -51,7 +51,9 @@ public:
 	void displayTicketDetails();
 	virtual const Normal* operator++();
 	virtual const Normal* operator++(int);
+	friend istream& operator>>(istream& in, Normal& t);
 };
+ostream& operator<<(ostream& out, Normal& t);
 
 class Vip : public Normal {
 	int bonusPoints;

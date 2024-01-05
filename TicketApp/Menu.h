@@ -5,7 +5,7 @@ class Menu
 {
 public:
 	// 0 - user, 1 - admin
-	int whoIs = -1;
+	int whoIs = -1;		  // make private
 	void who();
 	void start();
 	void display();
@@ -13,4 +13,6 @@ public:
 	void addEventLocation();
 	void generateTicket();
 	void validateTicket();
+	void processFileInput(const string& filename);
+	void saveToBinaryFile();
 };

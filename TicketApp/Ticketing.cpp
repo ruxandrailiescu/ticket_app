@@ -13,7 +13,7 @@ void Normal::addTicket(const Normal* t, int type) {
 		(*temp)[i] = (*tickets)[i];
 	}
 
-	// how to allocate memory for object if type is not known a priori
+	// how to allocate memory for object if "type" is not known beforehand
 	temp[Ticketing::NO_TICKETS - 1] = new Normal();		
 	(*temp)[Ticketing::NO_TICKETS - 1] = *t;
 	
@@ -111,7 +111,7 @@ Ticketing& Ticketing::operator=(const Ticketing& t) {
 	return *this;
 }
 
-Event Ticketing::getEvent() { return this->event; }
+const Event* Ticketing::getEvent() { return &this->event; }
 int Ticketing::getId() { return this->id; }
 int Ticketing::getNoTickets() { return Ticketing::NO_TICKETS; }
 int Ticketing::getIdCounter() { return Ticketing::ID_COUNTER; }
@@ -170,6 +170,51 @@ bool Ticketing::operator<(const Ticketing& t) {
 		return false;
 	}
 	return true;
+}
+
+istream& operator>>(istream& in, Normal& t) {
+	Event e;
+	in >> e;
+	t.event = e;
+
+	cout << endl << "Seat number: ";
+	char buffer[256];
+	in.ignore();
+	in.getline(buffer, 256);
+	t.setSeatNumber(buffer);
+
+	cout << endl << "Time: ";
+	char buffer1[256];
+	in.getline(buffer1, 256);
+	t.setTime(buffer1);
+
+	cout << endl << "Date: ";
+	char buffer2[256];
+	in.getline(buffer2, 256);
+	t.setDate(buffer2);
+
+	cout << endl << "Price: ";
+	in.clear();
+	double _price;
+	in >> _price;
+	t.setPrice(_price);
+	return in;
+}
+
+ostream& operator<<(ostream& out, Normal& t) {
+	out << endl << "Event details: ";
+	out << t.getEvent();
+	out << endl << "Ticket id: ";
+	out << t.getId();
+	out << endl << "Seat number: ";
+	out << t.getSeatNumber();
+	out << endl << "Time: ";
+	out << t.getTime();
+	out << endl << "Date: ";
+	out << t.getDate();
+	out << endl << "Price: ";
+	out << t.getPrice();
+	return out;
 }
 
 void Ticketing::displayTicketDetails() {

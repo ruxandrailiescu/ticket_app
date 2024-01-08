@@ -11,7 +11,6 @@ protected:
 	char time[6] = "";		// hh:mm
 	char date[11] = "";		// dd/mm/yyyy
 	double price = 0;
-
 	static int NO_TICKETS;
 	static int ID_COUNTER;
 public:
@@ -45,13 +44,14 @@ class Normal : public Ticketing {
 	void setPrice(double _price);
 	static Normal** tickets;
 public:
-	static void addTicket(const Normal* t, int type);
+	static void addTicket(Normal t, int type);
 	Normal();
 	Normal(Event _event, const char* _seatNumber, const char* _time, const char* _date, double _price);
 	void displayTicketDetails();
 	virtual const Normal* operator++();
 	virtual const Normal* operator++(int);
 	friend istream& operator>>(istream& in, Normal& t);
+	static void generateReport(ofstream& report);
 };
 ostream& operator<<(ostream& out, Normal& t);
 

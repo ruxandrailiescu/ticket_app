@@ -21,8 +21,9 @@ void Menu::display() {
 	cout << "| 3. Generate Ticket |\n";
 	cout << "| 4. Validate Ticket |\n";
 	cout << "| 5. Process Tickets |\n";
-	cout << "| 5. Save Tickets    |\n";
-	cout << "| 7. Exit            |\n";
+	cout << "| 6. Save Tickets    |\n";
+	cout << "| 7. Generate Report |\n";
+	cout << "| 8. Exit            |\n";
 	cout << "|                    |\n";
 	cout << "|--------------------|\n";
 }
@@ -117,19 +118,19 @@ void Menu::generateTicket() {
 	switch (type) {
 	case 0:
 		newTicket = new Normal(e, _seatNumber, _time, _date, _price);
-		Normal::addTicket(newTicket, type);
+		Normal::addTicket(*newTicket, type);
 	case 1:
 		cout << endl << "Enter bonus points: ";
 		int _bonus;
 		cin >> _bonus;
 		newTicket = new Vip(e, _seatNumber, _time, _date, _price, _bonus);
-		Normal::addTicket(newTicket, type);
+		Normal::addTicket(*newTicket, type);
 	case 2:
 		cout << endl << "Enter discount: ";
 		int _discount;
 		cin >> _discount;
 		newTicket = new Student(e, _seatNumber, _time, _date, _price, _discount);
-		Normal::addTicket(newTicket, type);
+		Normal::addTicket(*newTicket, type);
 	}
 }
 
@@ -146,7 +147,7 @@ void Menu::processFileInput(const string& filename) {
 		file.close();
 	}
 	else {
-		cout << endl << "***** File not found *****";
+		throw exception("***** File not found *****");
 	}
 }
 
@@ -179,6 +180,10 @@ void Menu::start() {
 		case 5:
 			this->processFileInput("TicketsInputFile.txt");
 			break;
+		case 7:
+			ofstream report("Report.txt");
+			Normal::generateReport(report);
+			break;
 		}
-	} while (choice != 7);
+	} while (choice != 8);
 }

@@ -4,30 +4,42 @@ Normal** Normal::tickets = nullptr;
 int Ticketing::NO_TICKETS = 0;
 int Ticketing::ID_COUNTER = 0;
 
-void Normal::addTicket(const Normal* t, int type) {
-	Ticketing::NO_TICKETS++;
-
-	Normal** temp = new Normal * [Ticketing::NO_TICKETS];
-	for (int i = 0; i < Ticketing::NO_TICKETS - 1; i++) {
-		temp[i] = new Normal();
-		(*temp)[i] = (*tickets)[i];
-	}
-
-	// how to allocate memory for object if "type" is not known beforehand
-	temp[Ticketing::NO_TICKETS - 1] = new Normal();		
-	(*temp)[Ticketing::NO_TICKETS - 1] = *t;
+void Normal::addTicket(Normal t, int type) {
 	
-	if (tickets != nullptr) {
-		for (int i = 0; i < Ticketing::NO_TICKETS; i++)
-			delete tickets[i];
-		delete[] tickets;
+	// works only if tickets are upcasted to Normal at the moment
+	Normal** newTickets = new Normal * [NO_TICKETS + 1];
+	for (int i = 0; i < NO_TICKETS; i++) {
+		newTickets[i] = tickets[i];
 	}
-		
-	tickets = new Normal * [Ticketing::NO_TICKETS];
-	for (int i = 0; i < Ticketing::NO_TICKETS; i++) {
-		tickets[i] = new Normal();
-		(*tickets)[i] = (*temp)[i];
-	}
+
+	newTickets[NO_TICKETS] = new Normal(t);
+
+	delete[] tickets;
+	tickets = newTickets;
+
+	NO_TICKETS++;
+
+	//Normal** temp = new Normal * [Ticketing::NO_TICKETS];
+	//for (int i = 0; i < Ticketing::NO_TICKETS - 1; i++) {
+	//	temp[i] = new Normal();
+	//	(*temp)[i] = (*tickets)[i];
+	//}
+
+	//// how to allocate memory for object if "type" is not known beforehand
+	//temp[Ticketing::NO_TICKETS - 1] = new Normal();		
+	//(*temp)[Ticketing::NO_TICKETS - 1] = *t;
+	//
+	//if (tickets != nullptr) {
+	//	for (int i = 0; i < Ticketing::NO_TICKETS; i++)
+	//		delete tickets[i];
+	//	delete[] tickets;
+	//}
+	//	
+	//tickets = new Normal * [Ticketing::NO_TICKETS];
+	//for (int i = 0; i < Ticketing::NO_TICKETS; i++) {
+	//	tickets[i] = new Normal();
+	//	(*tickets)[i] = (*temp)[i];
+	//}
 }
 
 void Ticketing::setSeatNumber(const char* _seatNumber) {
@@ -154,6 +166,17 @@ const Normal* Normal::operator++(int) {
 	Normal* copy = new Normal(*this);
 	this->price++;
 	return copy;
+}
+
+void Normal::generateReport(ofstream& report) {
+	if (!report.is_open()) {
+		throw exception("File not opened for report");
+	}
+	report << "\nTICKETS REPORT\n";
+	for (int i = 0; i < Ticketing::NO_TICKETS; i++) {
+		report << "Ticket " << i + 1 << ": \n";
+		report << *tickets[i];
+	}
 }
 
 bool Ticketing::operator>(const Ticketing& t) {

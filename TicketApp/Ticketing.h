@@ -50,6 +50,7 @@ public:
 	void displayTicketDetails();
 	virtual const Normal* operator++();
 	virtual const Normal* operator++(int);
+	virtual void serialize(ofstream& file);
 	friend istream& operator>>(istream& in, Normal& t);
 	static void generateReport(ofstream& report);
 };
@@ -66,6 +67,8 @@ public:
 	void displayTicketDetails();
 	const Vip* operator++();
 	const Vip* operator++(int);
+	void serialize(ofstream& file);
+	friend istream& operator>>(istream& in, Vip& t);
 };
 
 class Student :public Normal {
@@ -79,4 +82,6 @@ public:
 	void displayTicketDetails();
 	const Student* operator++();
 	const Student* operator++(int);
+	void serialize(ofstream& file);
+	friend istream& operator>>(istream& in, Student& t);
 };

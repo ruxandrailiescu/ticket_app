@@ -4,6 +4,34 @@ Normal** Normal::tickets = nullptr;
 int Ticketing::NO_TICKETS = 0;
 int Ticketing::ID_COUNTER = 0;
 
+void Normal::serialize(ofstream& file) {
+	file.write((char*)&this->id, sizeof(int));
+
+	int size = strlen(this->seatNumber);		// not +1 because we added the string terminator
+	file.write((char*)&size, sizeof(int));
+	file.write(this->seatNumber, sizeof(char) * size);
+
+	size = strlen(this->date);
+	file.write((char*)&size, sizeof(int));
+	file.write(this->date, sizeof(char) * size);
+
+	size = strlen(this->time);
+	file.write((char*)&size, sizeof(int));
+	file.write(this->time, sizeof(char) * size);
+
+	file.write((char*)&this->price, sizeof(double));
+}
+
+void Vip::serialize(ofstream& file) {
+	Normal::serialize(file);
+	file.write((char*)&this->bonusPoints, sizeof(int));
+}
+
+void Student::serialize(ofstream& file) {
+	Normal::serialize(file);
+	file.write((char*)&this->discount, sizeof(int));
+}
+
 void Normal::addTicket(Normal t, int type) {
 	
 	// works only if tickets are upcasted to Normal at the moment
@@ -177,6 +205,7 @@ void Normal::generateReport(ofstream& report) {
 		report << "Ticket " << i + 1 << ": \n";
 		report << *tickets[i];
 	}
+	report.close();
 }
 
 bool Ticketing::operator>(const Ticketing& t) {
@@ -221,6 +250,74 @@ istream& operator>>(istream& in, Normal& t) {
 	double _price;
 	in >> _price;
 	t.setPrice(_price);
+	return in;
+}
+
+istream& operator>>(istream& in, Vip& t) {
+	Event e;
+	in >> e;
+	t.event = e;
+
+	cout << endl << "Seat number: ";
+	char buffer[256];
+	in.ignore();
+	in.getline(buffer, 256);
+	t.setSeatNumber(buffer);
+
+	cout << endl << "Time: ";
+	char buffer1[256];
+	in.getline(buffer1, 256);
+	t.setTime(buffer1);
+
+	cout << endl << "Date: ";
+	char buffer2[256];
+	in.getline(buffer2, 256);
+	t.setDate(buffer2);
+
+	cout << endl << "Price: ";
+	in.clear();
+	double _price;
+	in >> _price;
+	t.setPrice(_price);
+
+	cout << endl << "Bonus points: ";
+	int _bonus;
+	in >> _bonus;
+	t.setBonusPoints(_bonus);
+	return in;
+}
+
+istream& operator>>(istream& in, Student& t) {
+	Event e;
+	in >> e;
+	t.event = e;
+
+	cout << endl << "Seat number: ";
+	char buffer[256];
+	in.ignore();
+	in.getline(buffer, 256);
+	t.setSeatNumber(buffer);
+
+	cout << endl << "Time: ";
+	char buffer1[256];
+	in.getline(buffer1, 256);
+	t.setTime(buffer1);
+
+	cout << endl << "Date: ";
+	char buffer2[256];
+	in.getline(buffer2, 256);
+	t.setDate(buffer2);
+
+	cout << endl << "Price: ";
+	in.clear();
+	double _price;
+	in >> _price;
+	t.setPrice(_price);
+
+	cout << endl << "Discount: ";
+	int _discount;
+	in >> _discount;
+	t.setDiscount(_discount);
 	return in;
 }
 

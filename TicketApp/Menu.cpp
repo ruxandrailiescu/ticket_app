@@ -151,12 +151,46 @@ void Menu::processFileInput(const string& filename) {
 	}
 }
 
+void Menu::saveToBinaryFile() {
+	char* filename = nullptr;
+	cout << endl << "Enter file name: ";
+	cin.getline(filename, 256);
+	ofstream file(filename, ios::binary | ios::ate);
+	if (!file.is_open()) {
+		cout << endl << "Issues with the file";
+	}
+	Normal ticket;
+	cin >> ticket;
+	ticket.serialize(file);
+	file.close();
+
+	//int type;
+	//cout << "\nWhat type of ticket do you want to save?\n";
+	//do {
+	//	cout << endl << "Enter ticket type (0 - Normal, 1 - Vip, 2 - Student): ";
+	//	cin >> type;
+	//} while ((type != 0) && (type != 1) && (type != 2));
+
+	//switch (type) {
+	//case 0:
+	//	Normal ticket;
+	//	cin >> ticket;
+	//	break;
+	//case 1:
+	//	// *********************
+	//	break;
+	//case 2:
+	//	// *********************
+	//	break;
+	//}
+}
+
 void Menu::start() {
 	int choice;
 	do {
 		this->who();
 		this->display();
-		cout << endl << "Enter action (choose number 1-5): ";
+		cout << endl << "Enter action (choose number 1-8): ";
 		cin >> choice;
 		if ((choice > 5) || (choice < 1)) {
 			cout << endl << "Try again!";
@@ -180,8 +214,11 @@ void Menu::start() {
 		case 5:
 			this->processFileInput("TicketsInputFile.txt");
 			break;
+		case 6:
+			this->saveToBinaryFile();
+			break;
 		case 7:
-			ofstream report("Report.txt");
+			ofstream report("Report.txt", ios::app);
 			Normal::generateReport(report);
 			break;
 		}

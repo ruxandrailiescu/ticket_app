@@ -1,5 +1,20 @@
 #include "UtilTickets.h"
 
+
+void UtilTickets::serializeString(string value, ofstream& file) {
+	int size = strlen(value.c_str()) + 1;
+	file.write((char*)&size, sizeof(int));
+	file.write(value.c_str(), sizeof(char) * size);
+}
+
+string UtilTickets::deserializeString(ifstream& file) {
+	int size = 0;
+	file.read((char*)&size, sizeof(int));
+	char buffer[256];
+	file.read(buffer, sizeof(char) * size);
+	return string(buffer);
+}
+
 char* UtilTickets::copyString(const char* source) {
 
 	if (source == nullptr) {

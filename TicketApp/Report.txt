@@ -12,3 +12,4 @@ Seat number: A12
 Time: 12:23
 Date: 12/12/2022
 Price: 12
+TICKETS REPORT

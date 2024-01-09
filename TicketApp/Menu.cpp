@@ -1,5 +1,9 @@
 #include "Menu.h"
 
+
+// MOST OF THE EXCEPTIONS THROWN ARE NOT MANAGED
+// WITH TRY-CATCH (CAREFUL WITH INPUT)
+
 void Menu::who() {
 	do {
 		cout << endl << "Are you user or admin?";
@@ -145,7 +149,7 @@ void Menu::processFileInput(const string& filename) {
 	if (file.is_open()) {
 		while (!file.eof()) {
 			Normal ticket;
-			file >> ticket;
+			ticket.Ticketing::deserialize(file);
 			cout << endl << ticket;
 		}
 		file.close();

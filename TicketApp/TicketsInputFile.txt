@@ -1,4 +1,5 @@
 ABC123456
+14
 Movie premiere
 Baneasa Shopping Center
 Bucuresti
@@ -7,7 +8,8 @@ A12
 B23
 C25
 100
+P123456
 A12
-12:12
 12/12/2022
+12:12
 20

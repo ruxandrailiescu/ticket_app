@@ -158,7 +158,7 @@ void Menu::processFileInput(const string& filename) {
 void Menu::saveToBinaryFile(string filename) {
 	Normal ticket;
 	cin >> ticket;
-	ofstream file(filename, ios::binary | ios::ate | ios::app);
+	ofstream file(filename, ios::binary | ios::ate);
 	if (!file.is_open()) {
 		cout << endl << "Issues with the file";
 	}

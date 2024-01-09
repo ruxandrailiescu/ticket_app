@@ -29,9 +29,9 @@ char* UtilTickets::copyString(const char* source) {
 void UtilTickets::setString(char*& destination, const char* source) {
 
 	// destination - obj attribute; source - (user) input
-	if (destination != nullptr) {
-		delete[] destination;
-	}
+	//if (destination != nullptr) {
+	//	delete[] destination;
+	//}
 
 	destination = new char[strlen(source) + 1];
 	strcpy_s(destination, strlen(source) + 1, source);

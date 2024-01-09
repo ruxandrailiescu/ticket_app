@@ -10,8 +10,8 @@ void Menu::who() {
 
 void Menu::display() {
 
-	// 5. Process tickets from text file
-	// 6. Save tickets to binary file -- data has to be restored once app restarts
+	// 5. Process tickets from text file -- default txt file if choosing 5 or start from cmd to input file manually
+	// 6. Save tickets to binary file (serialize func) -- data has to be restored once app restarts (deserialize func)
 	cout << endl;
 	cout << "|--------------------|\n";
 	cout << "|        MENU        |\n";
@@ -85,6 +85,7 @@ void Menu::addEvent() {
 }
 
 void Menu::generateTicket() {
+
 	Event e;
 	cin >> e;
 
@@ -114,18 +115,20 @@ void Menu::generateTicket() {
 		cin >> type;
 	} while ((type != 0) && (type != 1) && (type != 2));
 	
+	// works only for Normal tickets at the moment
 	Normal* newTicket;
-	switch (type) {
-	case 0:
+	if (type == 0) {
 		newTicket = new Normal(e, _seatNumber, _time, _date, _price);
 		Normal::addTicket(*newTicket, type);
-	case 1:
+	}
+	else if (type == 1) {
 		cout << endl << "Enter bonus points: ";
 		int _bonus;
 		cin >> _bonus;
 		newTicket = new Vip(e, _seatNumber, _time, _date, _price, _bonus);
 		Normal::addTicket(*newTicket, type);
-	case 2:
+	}
+	else {
 		cout << endl << "Enter discount: ";
 		int _discount;
 		cin >> _discount;
@@ -151,38 +154,16 @@ void Menu::processFileInput(const string& filename) {
 	}
 }
 
-void Menu::saveToBinaryFile() {
-	char* filename = nullptr;
-	cout << endl << "Enter file name: ";
-	cin.getline(filename, 256);
+void Menu::saveToBinaryFile(string filename) {
+	Normal ticket;
+	cin >> ticket;
 	ofstream file(filename, ios::binary | ios::ate);
 	if (!file.is_open()) {
 		cout << endl << "Issues with the file";
 	}
-	Normal ticket;
-	cin >> ticket;
 	ticket.serialize(file);
+	cout << endl << "***** Ticket saved *****";
 	file.close();
-
-	//int type;
-	//cout << "\nWhat type of ticket do you want to save?\n";
-	//do {
-	//	cout << endl << "Enter ticket type (0 - Normal, 1 - Vip, 2 - Student): ";
-	//	cin >> type;
-	//} while ((type != 0) && (type != 1) && (type != 2));
-
-	//switch (type) {
-	//case 0:
-	//	Normal ticket;
-	//	cin >> ticket;
-	//	break;
-	//case 1:
-	//	// *********************
-	//	break;
-	//case 2:
-	//	// *********************
-	//	break;
-	//}
 }
 
 void Menu::start() {
@@ -192,7 +173,7 @@ void Menu::start() {
 		this->display();
 		cout << endl << "Enter action (choose number 1-8): ";
 		cin >> choice;
-		if ((choice > 5) || (choice < 1)) {
+		if ((choice > 8) || (choice < 1)) {
 			cout << endl << "Try again!";
 		}
 
@@ -215,7 +196,7 @@ void Menu::start() {
 			this->processFileInput("TicketsInputFile.txt");
 			break;
 		case 6:
-			this->saveToBinaryFile();
+			this->saveToBinaryFile("Tickets.bin");
 			break;
 		case 7:
 			ofstream report("Report.txt", ios::app);

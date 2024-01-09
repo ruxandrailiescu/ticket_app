@@ -53,6 +53,7 @@ public:
 	virtual void serialize(ofstream& file);
 	friend istream& operator>>(istream& in, Normal& t);
 	static void generateReport(ofstream& report);
+	//~Normal();
 };
 ostream& operator<<(ostream& out, Normal& t);
 

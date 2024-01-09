@@ -125,7 +125,7 @@ void Ticketing::setPrice(double _price) {
 }
 
 Ticketing::Ticketing() : id(++ID_COUNTER) {
-	Ticketing::NO_TICKETS++;
+	//Ticketing::NO_TICKETS++;
 }
 
 Ticketing::Ticketing(Event _event, const char* _seatNumber, const char* _time, const char* _date, double _price) : id(++ID_COUNTER) {
@@ -134,7 +134,7 @@ Ticketing::Ticketing(Event _event, const char* _seatNumber, const char* _time, c
 	this->setTime(_time);
 	this->setDate(_date);
 	this->setPrice(_price);
-	Ticketing::NO_TICKETS++;
+	//Ticketing::NO_TICKETS++;
 }
 
 Ticketing::Ticketing(const Ticketing& t)
@@ -205,6 +205,7 @@ void Normal::generateReport(ofstream& report) {
 		report << "Ticket " << i + 1 << ": \n";
 		report << *tickets[i];
 	}
+	cout << endl << "***** Report generated *****";
 	report.close();
 }
 
@@ -347,7 +348,7 @@ void Ticketing::displayTicketDetails() {
 }
 
 Ticketing::~Ticketing() {
-	Ticketing::NO_TICKETS--;
+	//Ticketing::NO_TICKETS--;
 }
 
 void Normal::setPrice(double _price) {
@@ -355,6 +356,11 @@ void Normal::setPrice(double _price) {
 }
 
 Normal::Normal() {}
+
+//Normal::~Normal() {
+//	if (Normal::tickets != nullptr)
+//		delete[] tickets;
+//}
 
 Normal::Normal(Event _event, const char* _seatNumber, const char* _time, const char* _date, double _price)
 	: Ticketing(_event, _seatNumber, _time, _date, _price) {}

@@ -2,3 +2,13 @@
 TICKETS REPORT
 
 TICKETS REPORT
+
+TICKETS REPORT
+Ticket 1: 
+
+Event details: 000002173C9B7A08
+Ticket id: 3
+Seat number: A12
+Time: 12:23
+Date: 12/12/2022
+Price: 12

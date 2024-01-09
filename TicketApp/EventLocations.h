@@ -27,6 +27,8 @@ public:
 	explicit operator int();
 	bool operator==(const EventLocations& l);
 	friend void operator>>(istream& in, EventLocations& l);
+	void serialize(ofstream& file);
+	void deserialize(ifstream& file);
 	~EventLocations();
 
 protected:

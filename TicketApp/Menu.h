@@ -15,4 +15,5 @@ public:
 	void validateTicket();
 	void processFileInput(const string& filename);
 	void saveToBinaryFile(string filename);
+	void restoreFromBinaryFile(string filename);
 };

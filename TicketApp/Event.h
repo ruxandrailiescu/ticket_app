@@ -1,5 +1,6 @@
 #pragma once
 #include "EventLocations.h"
+#pragma warning(disable : 4996)		// to use strcpy (binary file managed by us and verification in UtilTickets::deserialize)
 
 class Event
 {
@@ -22,6 +23,8 @@ public:
 	void setName(char* _name);
 	bool operator==(const Event& e);
 	friend void operator>>(istream& in, Event& e);
+	void serialize(ofstream& file);
+	void deserialize(ifstream& file);
 	~Event();
 };
 ostream& operator<<(ostream& out, Event& e);

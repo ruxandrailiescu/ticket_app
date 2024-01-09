@@ -5,21 +5,66 @@ int Ticketing::NO_TICKETS = 0;
 int Ticketing::ID_COUNTER = 0;
 
 void Normal::serialize(ofstream& file) {
+	// for individual tickets
+	// write event
+	this->event.serialize(file);
+
+	// write id
 	file.write((char*)&this->id, sizeof(int));
 
-	int size = strlen(this->seatNumber);		// not +1 because we added the string terminator
+	// write seat number
+	int size = strlen(this->seatNumber);		// not +1 because we added the string terminator (setters)
 	file.write((char*)&size, sizeof(int));
 	file.write(this->seatNumber, sizeof(char) * size);
 
+	// write date
 	size = strlen(this->date);
 	file.write((char*)&size, sizeof(int));
 	file.write(this->date, sizeof(char) * size);
 
+	// write time
 	size = strlen(this->time);
 	file.write((char*)&size, sizeof(int));
 	file.write(this->time, sizeof(char) * size);
 
+	// write price
 	file.write((char*)&this->price, sizeof(double));
+}
+
+void Ticketing::deserialize(ifstream& file) {
+	// for individual tickets
+	// Event event
+	this->event.deserialize(file);
+
+	// const int id
+	file.read((char*)&this->id, sizeof(int));
+
+	// char seatNumber[4]
+	strcpy_s(this->seatNumber, 4, UtilTickets::deserializeString(file).c_str());
+
+	// char date[11]
+	strcpy_s(this->date, 11, UtilTickets::deserializeString(file).c_str());
+
+	// char time[6]
+	strcpy_s(this->time, 6, UtilTickets::deserializeString(file).c_str());
+
+	// double price
+	file.read((char*)&this->price, sizeof(float));
+}
+
+void Normal::deserialize(ifstream& file) {
+	// for tickets array of pointers
+	for (int i = 0; i < NO_TICKETS; i++) {
+		delete tickets[i];
+	}
+	delete[] tickets;
+
+	file.read((char*)&NO_TICKETS, sizeof(int));
+	tickets = new Normal * [NO_TICKETS];
+	for (int i = 0; i < NO_TICKETS; i++) {
+		tickets[i] = new Normal();
+		tickets[i]->Ticketing::deserialize(file);
+	}
 }
 
 void Vip::serialize(ofstream& file) {

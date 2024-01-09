@@ -21,6 +21,43 @@ void EventLocations::addEventLocation(const EventLocations& l) {
 		EventLocations::eventLocations[i] = temp[i];
 }
 
+void EventLocations::serialize(ofstream& file) {
+	// write location
+	UtilTickets::serializeString(this->location, file);
+	
+	// write address
+	UtilTickets::serializeString(this->address, file);
+	
+	// write available seats
+	file.write((char*)&this->noAvailableSeats, sizeof(int));
+	for (int i = 0; i < this->noAvailableSeats; i++) {
+		UtilTickets::serializeString(this->availableSeats[i], file);
+	}
+
+	// write max no of seats
+	file.write((char*)&this->maxNoSeats, sizeof(int));
+}
+
+void EventLocations::deserialize(ifstream& file) {
+	// for location attribute of Event class
+	// string location
+	this->location = UtilTickets::deserializeString(file);
+
+	// string address
+	this->address = UtilTickets::deserializeString(file);
+
+	// int noAvailableSeats
+	// int maxNoSeats
+	file.read((char*)&this->noAvailableSeats, sizeof(int));
+	
+	// string* availableSeats
+	for (int i = 0; i < this->noAvailableSeats; i++) {
+		this->availableSeats[i] = UtilTickets::deserializeString(file);
+	}
+	
+	file.read((char*)&this->maxNoSeats, sizeof(int));
+}
+
 void operator>>(istream& in, EventLocations& l) {
 	cout << endl << "Location: ";
 	char buffer[256];

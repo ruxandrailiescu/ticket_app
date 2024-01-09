@@ -27,6 +27,7 @@ public:
 	char* getDate();
 	static int getNoTickets();
 	static int getIdCounter();
+	void deserialize(ifstream& file);
 protected:
 	void setSeatNumber(const char* _seatNumber);
 	void setTime(const char* _time);
@@ -51,6 +52,7 @@ public:
 	virtual const Normal* operator++();
 	virtual const Normal* operator++(int);
 	virtual void serialize(ofstream& file);
+	void deserialize(ifstream& file);
 	friend istream& operator>>(istream& in, Normal& t);
 	static void generateReport(ofstream& report);
 	//~Normal();

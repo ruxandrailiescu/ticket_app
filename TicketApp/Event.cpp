@@ -21,6 +21,29 @@ void Event::addEvent(const Event& e) {
 		Event::events[i] = temp[i];
 }
 
+void Event::serialize(ofstream& file) {
+	// write id
+	UtilTickets::serializeString(this->id, file);
+
+	// write name
+	UtilTickets::serializeString(string(this->name), file);
+
+	// write location
+	this->location.serialize(file);
+}
+
+void Event::deserialize(ifstream& file) {
+	// for event attribute of Normal class
+	// string id
+	this->id = UtilTickets::deserializeString(file);
+
+	// char* name
+	strcpy(this->name, UtilTickets::deserializeString(file).c_str());
+
+	// EventLocations location
+	this->location.deserialize(file);
+}
+
 void operator>>(istream& in, Event& e) {
 	cout << endl << "Event id: ";
 	char buffer[256];

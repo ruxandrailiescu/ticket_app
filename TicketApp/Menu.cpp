@@ -22,8 +22,9 @@ void Menu::display() {
 	cout << "| 4. Validate Ticket |\n";
 	cout << "| 5. Process Tickets |\n";
 	cout << "| 6. Save Tickets    |\n";
-	cout << "| 7. Generate Report |\n";
-	cout << "| 8. Exit            |\n";
+	cout << "| 7. Restore Data    |\n";
+	cout << "| 8. Generate Report |\n";
+	cout << "| 9. Exit            |\n";
 	cout << "|                    |\n";
 	cout << "|--------------------|\n";
 }
@@ -157,12 +158,23 @@ void Menu::processFileInput(const string& filename) {
 void Menu::saveToBinaryFile(string filename) {
 	Normal ticket;
 	cin >> ticket;
-	ofstream file(filename, ios::binary | ios::ate);
+	ofstream file(filename, ios::binary | ios::ate | ios::app);
 	if (!file.is_open()) {
 		cout << endl << "Issues with the file";
 	}
 	ticket.serialize(file);
-	cout << endl << "***** Ticket saved *****";
+	cout << endl << "***** Ticket saved to binary file *****";
+	file.close();
+}
+
+void Menu::restoreFromBinaryFile(string filename) {
+	ifstream file(filename, ios::binary);
+	if (!file.is_open()) {
+		cout << endl << "Issues with the file";
+	}
+	Normal ticket;
+	ticket.deserialize(file);
+	cout << endl << "***** Ticket restored from binary file *****";
 	file.close();
 }
 
@@ -171,9 +183,9 @@ void Menu::start() {
 	do {
 		this->who();
 		this->display();
-		cout << endl << "Enter action (choose number 1-8): ";
+		cout << endl << "Enter action (choose number 1-9): ";
 		cin >> choice;
-		if ((choice > 8) || (choice < 1)) {
+		if ((choice > 9) || (choice < 1)) {
 			cout << endl << "Try again!";
 		}
 
@@ -199,9 +211,12 @@ void Menu::start() {
 			this->saveToBinaryFile("Tickets.bin");
 			break;
 		case 7:
+			this->restoreFromBinaryFile("Tickets.bin");
+			break;
+		case 8:
 			ofstream report("Report.txt", ios::app);
 			Normal::generateReport(report);
 			break;
 		}
-	} while (choice != 8);
+	} while (choice != 9);
 }

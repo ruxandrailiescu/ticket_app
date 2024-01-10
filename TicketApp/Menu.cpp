@@ -177,7 +177,7 @@ void Menu::restoreFromBinaryFile(string filename) {
 		cout << endl << "Issues with the file";
 	}
 	Normal ticket;
-	ticket.deserialize(file);
+	ticket.Ticketing::deserialize(file);
 	cout << endl << "***** Ticket restored from binary file *****";
 	file.close();
 }

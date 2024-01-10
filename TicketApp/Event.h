@@ -1,6 +1,6 @@
 #pragma once
 #include "EventLocations.h"
-#pragma warning(disable : 4996)		// to use strcpy (binary file managed by us and verification in UtilTickets::deserialize)
+//#pragma warning(disable : 4996)		// to use strcpy (binary file managed by us and verification in UtilTickets::deserialize)
 
 class Event
 {

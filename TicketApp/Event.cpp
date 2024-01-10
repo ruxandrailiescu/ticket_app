@@ -38,7 +38,9 @@ void Event::deserialize(ifstream& file) {
 	this->id = UtilTickets::deserializeString(file);
 
 	// char* name
-	strcpy(this->name, UtilTickets::deserializeString(file).c_str());
+	string _name = UtilTickets::deserializeString(file);
+	this->name = new char[_name.size() + 1];
+	strcpy_s(this->name, _name.size() + 1, _name.c_str());
 
 	// EventLocations location
 	this->location.deserialize(file);
